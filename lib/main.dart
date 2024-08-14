@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:taskapp_work/models/taskModel.dart';
 
 import 'dailoz/dailoz_page/dailoz_Authentication/dailoz_splashscreen.dart';
 import 'dailoz/dailoz_theme/dailoz_theme.dart';
@@ -9,6 +12,11 @@ import 'dailoz/dailoz_translation/stringtranslation.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  var directory = await getApplicationDocumentsDirectory();
+  Hive.init(directory.path);
+  Hive.registerAdapter(taskModelAdapter());
+  Hive.openBox<taskModel>('task');
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

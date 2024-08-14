@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:omni_datetime_picker/omni_datetime_picker.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
 import 'package:taskapp_work/Controllers/addtaskController.dart';
-import 'package:taskapp_work/classes/datetimepicker.dart';
+import 'package:taskapp_work/boxes/boxes.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_color.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_fontstyle.dart';
-import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_icons.dart';
+import 'package:taskapp_work/models/taskModel.dart';
 import '../../dailoz_theme/dailoz_themecontroller.dart';
 
 class DailozAddTask extends StatefulWidget {
@@ -20,6 +19,10 @@ class DailozAddTask extends StatefulWidget {
 class _DailozAddTaskState extends State<DailozAddTask> {
   dynamic size;
   double height = 0.00;
+  final TextEditingController _startdatetimeController =
+      TextEditingController();
+  final TextEditingController _enddatetimeController = TextEditingController();
+  // final DatetimeController _dateTimeController = Get.put(DatetimeController());
   double width = 0.00;
   int isselected = 0;
   int selecttime = 0;
@@ -43,14 +46,78 @@ class _DailozAddTaskState extends State<DailozAddTask> {
     DailozColor.lightred,
     DailozColor.textblue,
   ];
-  final DateTimeController dateTimeController = Get.put(DateTimeController());
-  final DateTimePickerService dateTimePickerService = DateTimePickerService();
+
   final CheckBoxController checkBoxController = Get.put(CheckBoxController());
 
   TextEditingController title = TextEditingController();
   TextEditingController description = TextEditingController();
-  TextEditingController startdatetime = TextEditingController();
+
   final TagController tagController = Get.put(TagController());
+  Future<void> _selectstartDate(
+    BuildContext context,
+  ) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (pickedDate != null) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+
+      if (pickedTime != null) {
+        final DateTime combinedDateTime = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
+
+        setState(() {
+          _startdatetimeController.text =
+              DateFormat('hh:mm a dd-MM-yyyy').format(combinedDateTime);
+        });
+      }
+    }
+  }
+
+  Future<void> _selectendDate(
+    BuildContext context,
+  ) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (pickedDate != null) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+
+      if (pickedTime != null) {
+        final DateTime combinedDateTime = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
+
+        setState(() {
+          _enddatetimeController.text =
+              DateFormat('hh:mm a dd-MM-yyyy').format(combinedDateTime);
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +172,7 @@ class _DailozAddTaskState extends State<DailozAddTask> {
                     fontSize: 14, color: DailozColor.textgray),
               ),
               TextField(
+                controller: title,
                 style: hsMedium.copyWith(
                     fontSize: 16,
                     color: themedata.isdark
@@ -121,63 +189,36 @@ class _DailozAddTaskState extends State<DailozAddTask> {
               ),
               SizedBox(
                 height: height / 36,
-              ),
-              Text(
-                "Date".tr,
-                style: hsSemiBold.copyWith(
-                    fontSize: 14, color: DailozColor.textgray),
-              ),
-              Obx(
-                () => TextField(
-                  // enabled: false,
-                  controller: TextEditingController(
-                      text: dateTimeController.selectedDate.value),
-                  style: hsMedium.copyWith(
-                      fontSize: 16,
-                      color: themedata.isdark
-                          ? DailozColor.white
-                          : DailozColor.black),
-                  decoration: InputDecoration(
-                      hintStyle: hsMedium.copyWith(
-                          fontSize: 16, color: DailozColor.textgray),
-                      hintText: "dd-mm-yyyy",
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: InkWell(
-                            splashColor: DailozColor.transparent,
-                            highlightColor: DailozColor.transparent,
-                            onTap: () async {
-                              await dateTimePickerService.editTime(
-                                  context, dateTimeController);
-                              // calendar();
-                            },
-                            child: Image.asset(DailozPngimage.calendar,
-                                height: height / 36,
-                                color: DailozColor.textgray)),
-                      ),
-                      border: UnderlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              const BorderSide(color: DailozColor.greyy))),
-                ),
-              ),
+              ), //TODO: UI comited of date field
+
               SizedBox(
                 height: height / 36,
               ),
               Text(
-                "Time".tr,
+                "Date & Time",
                 style: hsSemiBold.copyWith(
                     fontSize: 14, color: DailozColor.textgray),
               ),
               Row(
                 children: [
                   SizedBox(
-                    width: width / 2.2,
-                    child: Obx(() => TextField(
-                          controller: TextEditingController(
-                              text: dateTimeController.selectedTime.value),
+                      width: width / 2.2,
+                      child: InkWell(
+                        onTap: () {
+                          _selectstartDate(context);
+                        },
+                        child: TextField(
+                          controller: _startdatetimeController,
+                          // controller: _dateTimeController.startTime,
+
+                          // controller: controllerpicker.,
+                          // controller:
+                          // TextEditingController(
+                          //     text: dateTimeController.selectedTime.value),
                           readOnly: true,
                           enabled: false,
+                          // ,
+                          // controller: con,
                           style: hsMedium.copyWith(
                               fontSize: 16,
                               color: themedata.isdark
@@ -186,19 +227,23 @@ class _DailozAddTaskState extends State<DailozAddTask> {
                           decoration: InputDecoration(
                               hintStyle: hsMedium.copyWith(
                                   fontSize: 16, color: DailozColor.textgray),
-                              hintText: "HH:MM ",
+                              hintText: "Start Time ",
                               border: UnderlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                   borderSide: const BorderSide(
                                       color: DailozColor.greyy))),
-                        )),
-                  ),
+                        ),
+                      )),
                   const Spacer(),
                   SizedBox(
                     width: width / 2.2,
                     child:
                         // TimeInputField(),
                         TextField(
+                      onTap: () {
+                        _selectendDate(context);
+                      },
+                      controller: _enddatetimeController,
                       style: hsMedium.copyWith(
                           fontSize: 16,
                           color: themedata.isdark
@@ -207,7 +252,7 @@ class _DailozAddTaskState extends State<DailozAddTask> {
                       decoration: InputDecoration(
                           hintStyle: hsMedium.copyWith(
                               fontSize: 16, color: DailozColor.textgray),
-                          hintText: "HH:MM",
+                          hintText: "End Time",
                           border: UnderlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                               borderSide:
@@ -307,46 +352,48 @@ class _DailozAddTaskState extends State<DailozAddTask> {
                 height: height / 36,
               ),
               SizedBox(
-                  height: height / 21,
-                  child: ListView.builder(
-                    itemCount: tag.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          tagController.updateTag(tag[index]);
-                        },
-                        child: Obx(() => Container(
-                              margin: EdgeInsets.only(right: width / 36),
-                              height: height / 22,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: tagController.selectedTag.value ==
-                                        tag[index]
-                                    ? Colors.blue // Highlight selected tag
-                                    : color[index],
-                              ),
-                              child: Center(
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: width / 20),
-                                  child: Text(
-                                    tag[index],
-                                    style: hsRegular.copyWith(
-                                      fontSize: 14,
-                                      color: tagController.selectedTag.value ==
-                                              tag[index]
-                                          ? Colors
-                                              .white // Change text color for selected tag
-                                          : textcolor[index],
-                                    ),
+                height: height / 21,
+                child: ListView.builder(
+                  itemCount: tag.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        tagController.updateTag(tag[index]);
+                      },
+                      child: Obx(() => Container(
+                            margin: EdgeInsets.only(right: width / 36),
+                            height: height / 22,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: tagController.selectedTags
+                                      .contains(tag[index])
+                                  ? Colors.blue // Highlight selected tag
+                                  : color[index],
+                            ),
+                            child: Center(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: width / 20),
+                                child: Text(
+                                  tag[index],
+                                  style: hsRegular.copyWith(
+                                    fontSize: 14,
+                                    color: tagController.selectedTags
+                                            .contains(tag[index])
+                                        ? Colors
+                                            .white // Change text color for selected tag
+                                        : textcolor[index],
                                   ),
                                 ),
                               ),
-                            )),
-                      );
-                    },
-                  )),
+                            ),
+                          )),
+                    );
+                  },
+                ),
+              ),
+
               SizedBox(
                 height: height / 36,
               ),
@@ -372,12 +419,60 @@ class _DailozAddTaskState extends State<DailozAddTask> {
               ),
               InkWell(
                 splashColor: DailozColor.transparent,
-                highlightColor: DailozColor.transparent,
-                /*onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return DailozDashboard("0");
-                  },));
-                },*/
+                highlightColor: const Color.fromRGBO(0, 0, 0, 0),
+
+                //TODO: Functiojnality left btn on create
+                // onTap: () {
+                //   print("Title: ${title.text}");
+                //   print("Description: ${description.text}");
+                //   print(
+                //       "Status: ${type[checkBoxController.selectedCheckBox.value]}");
+                //   print("Tags: ${tagController.selectedTag.value}");
+                //   print("Start Date: ${DateTimeController}");
+                //   // print("End Date: ${DateTime.now()}");
+                //   print(
+                //       "ID: ${title.text} ${_startdatetimeController.toString()}");
+
+                //   var data = taskModel(
+                //       tasktype: "Canceled",
+                //       title: title.text,
+                //       description: description.text,
+                //       status: type[checkBoxController.selectedCheckBox.value],
+                //       tags: tagController.selectedTag.value,
+                //       // worktype: "Personal",
+                //       ID: '${title.text} ${_startdatetimeController.toString()}',
+                //       startdatetime: _startdatetimeController.toString(),
+                //       enddatetime: _enddatetimeController.toString());
+                //   final box = Boxes.getData();
+                //   box.add(data);
+                //   data.save();
+                // },
+                onTap: () {
+                  print("Title: ${title.text}");
+                  print("Description: ${description.text}");
+                  print(
+                      "Status: ${type[checkBoxController.selectedCheckBox.value]}");
+                  print("Tags: ${tagController.selectedTags.join(', ')}");
+                  print("Start Date: ${_startdatetimeController.text}");
+                  print("End Date: ${_enddatetimeController.text}");
+                  print("ID: ${title.text} ${_startdatetimeController.text}");
+
+                  var data = taskModel(
+                      tasktype: "Canceled",
+                      title: title.text,
+                      description: description.text,
+                      status: type[checkBoxController.selectedCheckBox.value],
+                      tags: tagController
+                          .selectedTags, // Storing tags as a comma-separated string
+                      ID: '${title.text} ${_startdatetimeController.text}',
+                      startdatetime: _startdatetimeController.text,
+                      enddatetime: _enddatetimeController.text);
+
+                  final box = Boxes.getData();
+                  box.add(data);
+                  data.save();
+                },
+
                 child: Container(
                   width: width / 1,
                   height: height / 15,
@@ -398,135 +493,6 @@ class _DailozAddTaskState extends State<DailozAddTask> {
       ),
     );
   }
-
-  // Future<bool> calendar() async {
-  //   return await showDialog(
-  //       builder: (context) => AlertDialog(
-  //             shape: RoundedRectangleBorder(
-  //                 borderRadius: BorderRadius.circular(20)),
-  //             actionsAlignment: MainAxisAlignment.center,
-  //             actions: [
-  //               Column(
-  //                 children: [
-  //                   TableCalendar(
-  //                     firstDay: DateTime.now(),
-  //                     focusedDay: DateTime.now(),
-  //                     lastDay: DateTime.utc(2050, 3, 14),
-  //                     headerVisible: true,
-  //                     daysOfWeekVisible: true,
-  //                     calendarStyle: const CalendarStyle(
-  //                       todayDecoration: BoxDecoration(
-  //                         color: DailozColor.appcolor,
-  //                         shape: BoxShape.circle,
-  //                       ),
-  //                       todayTextStyle: TextStyle(
-  //                         color: DailozColor.white,
-  //                       ),
-  //                       selectedDecoration: BoxDecoration(
-  //                         color: DailozColor.appcolor,
-  //                         shape: BoxShape.circle,
-  //                       ),
-  //                       selectedTextStyle: TextStyle(
-  //                         color: DailozColor.white,
-  //                       ),
-  //                     ),
-  //                     shouldFillViewport: false,
-  //                     currentDay: _selectedDay,
-  //                     calendarFormat: CalendarFormat.month,
-  //                     pageAnimationEnabled: false,
-  //                     headerStyle: HeaderStyle(
-  //                         leftChevronIcon: SizedBox(
-  //                           height: height / 26,
-  //                           width: height / 26,
-  //                           child: const Icon(
-  //                             Icons.chevron_left,
-  //                             color: DailozColor.textgray,
-  //                           ),
-  //                         ),
-  //                         rightChevronIcon: SizedBox(
-  //                             height: height / 26,
-  //                             width: height / 26,
-  //                             child: const Icon(
-  //                               Icons.chevron_right,
-  //                               color: DailozColor.textgray,
-  //                             )),
-  //                         formatButtonVisible: false,
-  //                         decoration: const BoxDecoration(
-  //                           color: DailozColor.transparent,
-  //                         ),
-  //                         titleCentered: true,
-  //                         titleTextStyle: hsBold.copyWith(
-  //                           fontSize: 16,
-  //                           color: DailozColor.black,
-  //                         )),
-  //                     selectedDayPredicate: (day) {
-  //                       return isSameDay(_selectedDay, day);
-  //                     },
-  //                     onDaySelected: (selectedDay, focusedDay) {
-  //                       setState(() {
-  //                         _selectedDay = selectedDay;
-  //                         /*  String convertdate = FormatedDate(_selectedDay.toString());
-  //                     selectdate = convertdate;*/
-  //                         // Navigator.pop(context);
-  //                       });
-  //                     },
-  //                   ),
-  //                   SizedBox(
-  //                     height: height / 36,
-  //                   ),
-  //                   Center(
-  //                     child: Row(
-  //                       mainAxisAlignment: MainAxisAlignment.center,
-  //                       children: [
-  //                         InkWell(
-  //                           splashColor: DailozColor.transparent,
-  //                           highlightColor: DailozColor.transparent,
-  //                           onTap: () {
-  //                             Navigator.pop(context);
-  //                           },
-  //                           child: Container(
-  //                             height: height / 20,
-  //                             width: width / 4,
-  //                             decoration: BoxDecoration(
-  //                                 borderRadius: BorderRadius.circular(6),
-  //                                 border:
-  //                                     Border.all(color: DailozColor.appcolor)),
-  //                             child: Center(
-  //                                 child: Text(
-  //                               "Cancel".tr,
-  //                               style: hsRegular.copyWith(
-  //                                   fontSize: 14, color: DailozColor.appcolor),
-  //                             )),
-  //                           ),
-  //                         ),
-  //                         SizedBox(
-  //                           width: width / 36,
-  //                         ),
-  //                         Container(
-  //                           height: height / 20,
-  //                           width: width / 4,
-  //                           decoration: BoxDecoration(
-  //                               borderRadius: BorderRadius.circular(6),
-  //                               color: DailozColor.appcolor),
-  //                           child: Center(
-  //                               child: Text(
-  //                             "Save".tr,
-  //                             style: hsRegular.copyWith(
-  //                                 fontSize: 14, color: DailozColor.white),
-  //                           )),
-  //                         )
-  //                       ],
-  //                     ),
-  //                   ),
-  //                   SizedBox(
-  //                     height: height / 56,
-  //                   ),
-  //                 ],
-  //               )
-  //             ],
-  //           ),
-  //       context: context);
-  // }
 
   Future<bool> newtag() async {
     return await showDialog(

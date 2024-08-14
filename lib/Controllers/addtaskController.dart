@@ -37,12 +37,13 @@ class CheckBoxController extends GetxController {
 }
 
 class TagController extends GetxController {
-  var selectedTag = ''.obs;
+  List<String> selectedTags = <String>[].obs;
 
   void updateTag(String tag) {
-    selectedTag.value = tag;
-    print(selectedTag
-        .value); //FIXME: translate index data into string that is index is zero set value of type to 'Personal'and if its 1 then set value of type to 'Work' and if its 2 then set value of type to 'Meeting' and if its 3 then set value of type to 'Study'
-    // Save the selected tag to the database here
+    if (selectedTags.contains(tag)) {
+      selectedTags.remove(tag);
+    } else {
+      selectedTags.add(tag);
+    }
   }
 }

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:taskapp_work/Widgets/square_Card.dart';
+import 'package:taskapp_work/boxes/boxes.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_color.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_fontstyle.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_icons.dart';
+import 'package:taskapp_work/models/taskModel.dart';
 
 // ignore: must_be_immutable
 class DailozMyTask extends StatefulWidget {
@@ -47,6 +50,7 @@ class _DailozMyTaskState extends State<DailozMyTask> {
 
   @override
   Widget build(BuildContext context) {
+    // var taskbox = Hive.box<taskModel>('task');
     size = MediaQuery.of(context).size;
     height = size.height;
     width = size.width;
@@ -91,1392 +95,179 @@ class _DailozMyTaskState extends State<DailozMyTask> {
           style: hsSemiBold.copyWith(fontSize: 18),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: width / 36, vertical: height / 36),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  SizedBox(
-                    width: width / 1.35,
-                    child: TextFormField(
-                        cursorColor: DailozColor.black,
-                        style: hsMedium.copyWith(
-                            fontSize: 16, color: DailozColor.textgray),
-                        decoration: InputDecoration(
-                          hintText: 'Search for task'.tr,
-                          filled: true,
-                          fillColor: DailozColor.bggray,
-                          prefixIcon: const Icon(
-                            Icons.search,
-                            size: 22,
-                            color: DailozColor.grey,
-                          ),
-                          suffixIcon: Padding(
-                            padding: const EdgeInsets.all(14),
-                            child: Container(
-                              height: height / 96,
-                              width: height / 96,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: DailozColor.textgray),
-                              child: const Icon(
-                                Icons.close,
-                                size: 12,
-                                color: DailozColor.white,
-                              ),
-                            ),
-                          ),
-                          hintStyle: hsMedium.copyWith(
-                              fontSize: 16, color: DailozColor.textgray),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide.none),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide.none),
-                        )),
-                  ),
-                  const Spacer(),
-                  InkWell(
-                    splashColor: DailozColor.transparent,
-                    highlightColor: DailozColor.transparent,
-                    onTap: () {
-                      filter();
-                    },
-                    child: Container(
-                        height: height / 13,
-                        width: height / 13,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(14),
-                          color: DailozColor.bggray,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(13),
-                          child: Image.asset(
-                            DailozPngimage.filter,
-                            height: height / 36,
-                          ),
-                        )),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: height / 36,
-              ),
-              Row(
-                children: [
-                  InkWell(
-                      splashColor: DailozColor.transparent,
-                      highlightColor: DailozColor.transparent,
-                      onTap: () {
-                        calendar();
-                      },
-                      child: Image.asset(
-                        DailozPngimage.calendar,
-                        height: height / 36,
-                      )),
-                  SizedBox(
-                    width: width / 30,
-                  ),
-                  Text(
-                    "May 2021",
-                    style: hsMedium.copyWith(fontSize: 20),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: height / 36,
-              ),
-              Text(
-                "14 May 2021",
-                style: hsRegular.copyWith(fontSize: 14),
-              ),
-              SizedBox(
-                height: height / 46,
-              ),
-              SizedBox(
-                height: height / 5.7,
-                child: ListView.builder(
-                  itemCount: 3,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return ReusableContainer(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      title: "Watching Tv",
-                      time: "12:00 - 9:15",
-                      urgency: "Urgent",
-                      location:
-                          "Home", //TODO: i make a reusable component of the Card which can be accessable anywhere
-                      type: '${widget.type}', // or "Canceled", "Pending", etc.
-                      onMenuItemSelected: (value) {
-                        // Handle menu item selection
-                      },
-                    );
-                    //     Container(
-                    //   width: width / 1.8,
-                    //   margin: EdgeInsets.only(right: width / 36),
-                    //   decoration: BoxDecoration(
-                    //       borderRadius: BorderRadius.circular(14),
-                    //       color: widget.type == "Completed"
-                    //           ? DailozColor.bgsky
-                    //           : widget.type == "Canceled"
-                    //               ? DailozColor.bgred
-                    //               : widget.type == "Pending"
-                    //                   ? DailozColor.bgpurple
-                    //                   : DailozColor.bggreen),
-                    //   child: Padding(
-                    //     padding: EdgeInsets.symmetric(
-                    //         horizontal: width / 36, vertical: height / 80),
-                    //     child: Column(
-                    //       crossAxisAlignment: CrossAxisAlignment.start,
-                    //       children: [
-                    //         Row(
-                    //           children: [
-                    //             Text(
-                    //               "Cleaning Clothes",
-                    //               style: hsMedium.copyWith(
-                    //                   fontSize: 16, color: DailozColor.black),
-                    //             ),
-                    //             const Spacer(),
-                    //             if (widget.type == "Completed") ...[
-                    //               SizedBox(
-                    //                 height: height / 22,
-                    //                 width: height / 26,
-                    //                 child: PopupMenuButton<int>(
-                    //                   itemBuilder: (context) => [
-                    //                     PopupMenuItem(
-                    //                       value: 1,
-                    //                       child: Row(
-                    //                         children: [
-                    //                           Image.asset(
-                    //                             DailozPngimage.upload,
-                    //                             height: height / 36,
-                    //                           ),
-                    //                           SizedBox(
-                    //                             width: width / 36,
-                    //                           ),
-                    //                           Text(
-                    //                             "Restore",
-                    //                             style: hsRegular.copyWith(
-                    //                                 fontSize: 16,
-                    //                                 color: DailozColor.black),
-                    //                           ),
-                    //                         ],
-                    //                       ),
-                    //                     ),
-                    //                     PopupMenuItem(
-                    //                       value: 2,
-                    //                       child: Row(
-                    //                         children: [
-                    //                           Image.asset(
-                    //                             DailozPngimage.delete,
-                    //                             height: height / 36,
-                    //                           ),
-                    //                           SizedBox(
-                    //                             width: width / 36,
-                    //                           ),
-                    //                           Text(
-                    //                             "Delete",
-                    //                             style: hsRegular.copyWith(
-                    //                                 fontSize: 16,
-                    //                                 color: DailozColor.black),
-                    //                           ),
-                    //                         ],
-                    //                       ),
-                    //                     )
-                    //                   ],
-                    //                   offset: const Offset(5, 50),
-                    //                   color: DailozColor.white,
-                    //                   constraints: BoxConstraints(
-                    //                     maxWidth: width / 2.8,
-                    //                   ),
-                    //                   shape: RoundedRectangleBorder(
-                    //                       borderRadius:
-                    //                           BorderRadius.circular(14)),
-                    //                   icon: Image.asset(
-                    //                     DailozPngimage.dot,
-                    //                     height: height / 36,
-                    //                     fit: BoxFit.fitHeight,
-                    //                   ),
-                    //                   elevation: 2,
-                    //                 ),
-                    //               )
-                    //             ] else if (widget.type == "Canceled") ...[
-                    //               SizedBox(
-                    //                 height: height / 22,
-                    //                 width: height / 26,
-                    //                 child: PopupMenuButton<int>(
-                    //                   itemBuilder: (context) => [
-                    //                     PopupMenuItem(
-                    //                       value: 1,
-                    //                       child: Row(
-                    //                         children: [
-                    //                           Image.asset(
-                    //                             DailozPngimage.editSquare,
-                    //                             height: height / 36,
-                    //                           ),
-                    //                           SizedBox(
-                    //                             width: width / 36,
-                    //                           ),
-                    //                           Text(
-                    //                             "Edit",
-                    //                             style: hsRegular.copyWith(
-                    //                                 fontSize: 16,
-                    //                                 color: DailozColor.black),
-                    //                           ),
-                    //                         ],
-                    //                       ),
-                    //                     ),
-                    //                     PopupMenuItem(
-                    //                       value: 2,
-                    //                       child: Row(
-                    //                         children: [
-                    //                           Image.asset(
-                    //                             DailozPngimage.upload,
-                    //                             height: height / 36,
-                    //                           ),
-                    //                           SizedBox(
-                    //                             width: width / 36,
-                    //                           ),
-                    //                           Text(
-                    //                             "Restore",
-                    //                             style: hsRegular.copyWith(
-                    //                                 fontSize: 16,
-                    //                                 color: DailozColor.black),
-                    //                           ),
-                    //                         ],
-                    //                       ),
-                    //                     ),
-                    //                     PopupMenuItem(
-                    //                       value: 3,
-                    //                       child: Row(
-                    //                         children: [
-                    //                           Image.asset(
-                    //                             DailozPngimage.delete,
-                    //                             height: height / 36,
-                    //                           ),
-                    //                           SizedBox(
-                    //                             width: width / 36,
-                    //                           ),
-                    //                           Text(
-                    //                             "Delete",
-                    //                             style: hsRegular.copyWith(
-                    //                                 fontSize: 16,
-                    //                                 color: DailozColor.black),
-                    //                           ),
-                    //                         ],
-                    //                       ),
-                    //                     )
-                    //                   ],
-                    //                   offset: const Offset(5, 50),
-                    //                   color: DailozColor.white,
-                    //                   constraints: BoxConstraints(
-                    //                     maxWidth: width / 2.8,
-                    //                   ),
-                    //                   shape: RoundedRectangleBorder(
-                    //                       borderRadius:
-                    //                           BorderRadius.circular(14)),
-                    //                   icon: Image.asset(
-                    //                     DailozPngimage.dot,
-                    //                     height: height / 36,
-                    //                     fit: BoxFit.fitHeight,
-                    //                   ),
-                    //                   elevation: 2,
-                    //                 ),
-                    //               )
-                    //             ] else if (widget.type == "Pending") ...[
-                    //               SizedBox(
-                    //                 height: height / 22,
-                    //                 width: height / 26,
-                    //                 child: PopupMenuButton<int>(
-                    //                   itemBuilder: (context) => [
-                    //                     PopupMenuItem(
-                    //                       value: 1,
-                    //                       child: Row(
-                    //                         children: [
-                    //                           Image.asset(
-                    //                             DailozPngimage.tickSquare,
-                    //                             height: height / 36,
-                    //                           ),
-                    //                           SizedBox(
-                    //                             width: width / 36,
-                    //                           ),
-                    //                           Text(
-                    //                             "Enable",
-                    //                             style: hsRegular.copyWith(
-                    //                                 fontSize: 16,
-                    //                                 color: DailozColor.black),
-                    //                           ),
-                    //                         ],
-                    //                       ),
-                    //                     ),
-                    //                     PopupMenuItem(
-                    //                       value: 2,
-                    //                       child: Row(
-                    //                         children: [
-                    //                           Image.asset(
-                    //                             DailozPngimage.editSquare,
-                    //                             height: height / 36,
-                    //                           ),
-                    //                           SizedBox(
-                    //                             width: width / 36,
-                    //                           ),
-                    //                           Text(
-                    //                             "Edit",
-                    //                             style: hsRegular.copyWith(
-                    //                                 fontSize: 16,
-                    //                                 color: DailozColor.black),
-                    //                           ),
-                    //                         ],
-                    //                       ),
-                    //                     ),
-                    //                     PopupMenuItem(
-                    //                       value: 3,
-                    //                       child: Row(
-                    //                         children: [
-                    //                           Image.asset(
-                    //                             DailozPngimage.delete,
-                    //                             height: height / 36,
-                    //                           ),
-                    //                           SizedBox(
-                    //                             width: width / 36,
-                    //                           ),
-                    //                           Text(
-                    //                             "Delete",
-                    //                             style: hsRegular.copyWith(
-                    //                                 fontSize: 16,
-                    //                                 color: DailozColor.black),
-                    //                           ),
-                    //                         ],
-                    //                       ),
-                    //                     )
-                    //                   ],
-                    //                   offset: const Offset(5, 50),
-                    //                   color: DailozColor.white,
-                    //                   constraints: BoxConstraints(
-                    //                     maxWidth: width / 2.8,
-                    //                   ),
-                    //                   shape: RoundedRectangleBorder(
-                    //                       borderRadius:
-                    //                           BorderRadius.circular(14)),
-                    //                   icon: Image.asset(
-                    //                     DailozPngimage.dot,
-                    //                     height: height / 36,
-                    //                     fit: BoxFit.fitHeight,
-                    //                   ),
-                    //                   elevation: 2,
-                    //                 ),
-                    //               )
-                    //             ] else ...[
-                    //               SizedBox(
-                    //                 height: height / 22,
-                    //                 width: height / 26,
-                    //                 child: PopupMenuButton<int>(
-                    //                   itemBuilder: (context) => [
-                    //                     PopupMenuItem(
-                    //                       value: 1,
-                    //                       child: Row(
-                    //                         children: [
-                    //                           Image.asset(
-                    //                             DailozPngimage.closeSquare,
-                    //                             height: height / 36,
-                    //                             color: DailozColor.black,
-                    //                           ),
-                    //                           SizedBox(
-                    //                             width: width / 36,
-                    //                           ),
-                    //                           Text(
-                    //                             "Disable",
-                    //                             style: hsRegular.copyWith(
-                    //                                 fontSize: 16,
-                    //                                 color: DailozColor.black),
-                    //                           ),
-                    //                         ],
-                    //                       ),
-                    //                     ),
-                    //                     PopupMenuItem(
-                    //                       value: 2,
-                    //                       child: Row(
-                    //                         children: [
-                    //                           Image.asset(
-                    //                             DailozPngimage.editSquare,
-                    //                             height: height / 36,
-                    //                           ),
-                    //                           SizedBox(
-                    //                             width: width / 36,
-                    //                           ),
-                    //                           Text(
-                    //                             "Edit",
-                    //                             style: hsRegular.copyWith(
-                    //                                 fontSize: 16,
-                    //                                 color: DailozColor.black),
-                    //                           ),
-                    //                         ],
-                    //                       ),
-                    //                     ),
-                    //                     PopupMenuItem(
-                    //                       value: 3,
-                    //                       child: Row(
-                    //                         children: [
-                    //                           Image.asset(
-                    //                             DailozPngimage.delete,
-                    //                             height: height / 36,
-                    //                           ),
-                    //                           SizedBox(
-                    //                             width: width / 36,
-                    //                           ),
-                    //                           Text(
-                    //                             "Delete",
-                    //                             style: hsRegular.copyWith(
-                    //                                 fontSize: 16,
-                    //                                 color: DailozColor.black),
-                    //                           ),
-                    //                         ],
-                    //                       ),
-                    //                     )
-                    //                   ],
-                    //                   offset: const Offset(5, 50),
-                    //                   color: DailozColor.white,
-                    //                   constraints: BoxConstraints(
-                    //                     maxWidth: width / 2.8,
-                    //                   ),
-                    //                   shape: RoundedRectangleBorder(
-                    //                       borderRadius:
-                    //                           BorderRadius.circular(14)),
-                    //                   icon: Image.asset(
-                    //                     DailozPngimage.dot,
-                    //                     height: height / 36,
-                    //                     fit: BoxFit.fitHeight,
-                    //                   ),
-                    //                   elevation: 2,
-                    //                 ),
-                    //               )
-                    //             ]
-                    //           ],
-                    //         ),
-                    //         Text(
-                    //           "07:00 - 07:15",
-                    //           style: hsRegular.copyWith(
-                    //               fontSize: 14,
-                    //               color: DailozColor.textappcolor),
-                    //         ),
-                    //         SizedBox(
-                    //           height: height / 46,
-                    //         ),
-                    //         Row(
-                    //           children: [
-                    //             Container(
-                    //                 decoration: BoxDecoration(
-                    //                     color: const Color(0xffFFE9ED),
-                    //                     borderRadius: BorderRadius.circular(5)),
-                    //                 child: Padding(
-                    //                   padding: EdgeInsets.symmetric(
-                    //                       horizontal: width / 36,
-                    //                       vertical: height / 120),
-                    //                   child: Text(
-                    //                     "Urgent",
-                    //                     style: hsMedium.copyWith(
-                    //                         fontSize: 10,
-                    //                         color: DailozColor.lightred),
-                    //                   ),
-                    //                 )),
-                    //             SizedBox(
-                    //               width: width / 36,
-                    //             ),
-                    //             Container(
-                    //                 decoration: BoxDecoration(
-                    //                     color: widget.type == "Completed"
-                    //                         ? DailozColor.sky
-                    //                         : widget.type == "Canceled"
-                    //                             ? DailozColor.lightorange
-                    //                             : widget.type == "Pending"
-                    //                                 ? DailozColor.lightpurple
-                    //                                 : DailozColor.parrot,
-                    //                     borderRadius: BorderRadius.circular(5)),
-                    //                 child: Padding(
-                    //                   padding: EdgeInsets.symmetric(
-                    //                       horizontal: width / 36,
-                    //                       vertical: height / 120),
-                    //                   child: Text(
-                    //                     "Home",
-                    //                     style: hsMedium.copyWith(
-                    //                       fontSize: 10,
-                    //                       color: widget.type == "Completed"
-                    //                           ? DailozColor.textblue
-                    //                           : widget.type == "Canceled"
-                    //                               ? DailozColor.lightred
-                    //                               : widget.type == "Pending"
-                    //                                   ? DailozColor.purple
-                    //                                   : DailozColor.lightgreen,
-                    //                     ),
-                    //                   ),
-                    //                 )),
-                    //           ],
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // );
-                  },
-                ),
-              ),
-              SizedBox(
-                height: height / 36,
-              ),
-              Text(
-                "15 May 2021",
-                style: hsRegular.copyWith(fontSize: 14),
-              ),
-              SizedBox(
-                height: height / 46,
-              ),
-              SizedBox(
-                height: height / 5.7,
-                child: ListView.builder(
-                  itemCount: 3,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      width: width / 1.8,
-                      margin: EdgeInsets.only(right: width / 36),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(14),
-                          color: widget.type == "Completed"
-                              ? DailozColor.bgsky
-                              : widget.type == "Canceled"
-                                  ? DailozColor.bgred
-                                  : widget.type == "Pending"
-                                      ? DailozColor.bgpurple
-                                      : DailozColor.bggreen),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: width / 36, vertical: height / 80),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  "Cleaning Clothes",
-                                  style: hsMedium.copyWith(
-                                      fontSize: 16, color: DailozColor.black),
-                                ),
-                                const Spacer(),
-                                if (widget.type == "Completed") ...[
-                                  SizedBox(
-                                    height: height / 22,
-                                    width: height / 26,
-                                    child: PopupMenuButton<int>(
-                                      itemBuilder: (context) => [
-                                        PopupMenuItem(
-                                          value: 1,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.upload,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Restore",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 2,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.delete,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Delete",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                      offset: const Offset(5, 50),
-                                      color: DailozColor.white,
-                                      constraints: BoxConstraints(
-                                        maxWidth: width / 2.8,
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(14)),
-                                      icon: Image.asset(
-                                        DailozPngimage.dot,
-                                        height: height / 36,
-                                        fit: BoxFit.fitHeight,
-                                      ),
-                                      elevation: 2,
-                                    ),
-                                  )
-                                ] else if (widget.type == "Canceled") ...[
-                                  SizedBox(
-                                    height: height / 22,
-                                    width: height / 26,
-                                    child: PopupMenuButton<int>(
-                                      itemBuilder: (context) => [
-                                        PopupMenuItem(
-                                          value: 1,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.editSquare,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Edit",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 2,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.upload,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Restore",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 3,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.delete,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Delete",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                      offset: const Offset(5, 50),
-                                      color: DailozColor.white,
-                                      constraints: BoxConstraints(
-                                        maxWidth: width / 2.8,
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(14)),
-                                      icon: Image.asset(
-                                        DailozPngimage.dot,
-                                        height: height / 36,
-                                        fit: BoxFit.fitHeight,
-                                      ),
-                                      elevation: 2,
-                                    ),
-                                  )
-                                ] else if (widget.type == "Pending") ...[
-                                  SizedBox(
-                                    height: height / 22,
-                                    width: height / 26,
-                                    child: PopupMenuButton<int>(
-                                      itemBuilder: (context) => [
-                                        PopupMenuItem(
-                                          value: 1,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.tickSquare,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Enable",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 2,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.editSquare,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Edit",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 3,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.delete,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Delete",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                      offset: const Offset(5, 50),
-                                      color: DailozColor.white,
-                                      constraints: BoxConstraints(
-                                        maxWidth: width / 2.8,
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(14)),
-                                      icon: Image.asset(
-                                        DailozPngimage.dot,
-                                        height: height / 36,
-                                        fit: BoxFit.fitHeight,
-                                      ),
-                                      elevation: 2,
-                                    ),
-                                  )
-                                ] else ...[
-                                  SizedBox(
-                                    height: height / 22,
-                                    width: height / 26,
-                                    child: PopupMenuButton<int>(
-                                      itemBuilder: (context) => [
-                                        PopupMenuItem(
-                                          value: 1,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.closeSquare,
-                                                height: height / 36,
-                                                color: DailozColor.black,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Disable",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 2,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.editSquare,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Edit",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 3,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.delete,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Delete",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                      offset: const Offset(5, 50),
-                                      color: DailozColor.white,
-                                      constraints: BoxConstraints(
-                                        maxWidth: width / 2.8,
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(14)),
-                                      icon: Image.asset(
-                                        DailozPngimage.dot,
-                                        height: height / 36,
-                                        fit: BoxFit.fitHeight,
-                                      ),
-                                      elevation: 2,
-                                    ),
-                                  )
-                                ]
-                              ],
-                            ),
-                            Text(
-                              "07:00 - 07:15",
-                              style: hsRegular.copyWith(
-                                  fontSize: 14,
-                                  color: DailozColor.textappcolor),
-                            ),
-                            SizedBox(
-                              height: height / 46,
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                    decoration: BoxDecoration(
-                                        color: const Color(0xffFFE9ED),
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: width / 36,
-                                          vertical: height / 120),
-                                      child: Text(
-                                        "Urgent",
-                                        style: hsMedium.copyWith(
-                                            fontSize: 10,
-                                            color: DailozColor.lightred),
-                                      ),
-                                    )),
-                                SizedBox(
-                                  width: width / 36,
-                                ),
-                                Container(
-                                    decoration: BoxDecoration(
-                                        color: widget.type == "Completed"
-                                            ? DailozColor.sky
-                                            : widget.type == "Canceled"
-                                                ? DailozColor.lightorange
-                                                : widget.type == "Pending"
-                                                    ? DailozColor.lightpurple
-                                                    : DailozColor.parrot,
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: width / 36,
-                                          vertical: height / 120),
-                                      child: Text(
-                                        "Home",
-                                        style: hsMedium.copyWith(
-                                          fontSize: 10,
-                                          color: widget.type == "Completed"
-                                              ? DailozColor.textblue
-                                              : widget.type == "Canceled"
-                                                  ? DailozColor.lightred
-                                                  : widget.type == "Pending"
-                                                      ? DailozColor.purple
-                                                      : DailozColor.lightgreen,
-                                        ),
-                                      ),
-                                    )),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              SizedBox(
-                height: height / 36,
-              ),
-              Text(
-                "16 May 2021",
-                style: hsRegular.copyWith(fontSize: 14),
-              ),
-              SizedBox(
-                height: height / 46,
-              ),
-              SizedBox(
-                height: height / 5.7,
-                child: ListView.builder(
-                  itemCount: 3,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      width: width / 1.8,
-                      margin: EdgeInsets.only(right: width / 36),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(14),
-                          color: widget.type == "Completed"
-                              ? DailozColor.bgsky
-                              : widget.type == "Canceled"
-                                  ? DailozColor.bgred
-                                  : widget.type == "Pending"
-                                      ? DailozColor.bgpurple
-                                      : DailozColor.bggreen),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: width / 36, vertical: height / 80),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  "Cleaning Clothes",
-                                  style: hsMedium.copyWith(
-                                      fontSize: 16, color: DailozColor.black),
-                                ),
-                                const Spacer(),
-                                if (widget.type == "Completed") ...[
-                                  SizedBox(
-                                    height: height / 22,
-                                    width: height / 26,
-                                    child: PopupMenuButton<int>(
-                                      itemBuilder: (context) => [
-                                        PopupMenuItem(
-                                          value: 1,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.upload,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Restore",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 2,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.delete,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Delete",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                      offset: const Offset(5, 50),
-                                      color: DailozColor.white,
-                                      constraints: BoxConstraints(
-                                        maxWidth: width / 2.8,
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(14)),
-                                      icon: Image.asset(
-                                        DailozPngimage.dot,
-                                        height: height / 36,
-                                        fit: BoxFit.fitHeight,
-                                      ),
-                                      elevation: 2,
-                                    ),
-                                  )
-                                ] else if (widget.type == "Canceled") ...[
-                                  SizedBox(
-                                    height: height / 22,
-                                    width: height / 26,
-                                    child: PopupMenuButton<int>(
-                                      itemBuilder: (context) => [
-                                        PopupMenuItem(
-                                          value: 1,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.editSquare,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Edit",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 2,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.upload,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Restore",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 3,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.delete,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Delete",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                      offset: const Offset(5, 50),
-                                      color: DailozColor.white,
-                                      constraints: BoxConstraints(
-                                        maxWidth: width / 2.8,
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(14)),
-                                      icon: Image.asset(
-                                        DailozPngimage.dot,
-                                        height: height / 36,
-                                        fit: BoxFit.fitHeight,
-                                      ),
-                                      elevation: 2,
-                                    ),
-                                  )
-                                ] else if (widget.type == "Pending") ...[
-                                  SizedBox(
-                                    height: height / 22,
-                                    width: height / 26,
-                                    child: PopupMenuButton<int>(
-                                      itemBuilder: (context) => [
-                                        PopupMenuItem(
-                                          value: 1,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.tickSquare,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Enable",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 2,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.editSquare,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Edit",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 3,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.delete,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Delete",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                      offset: const Offset(5, 50),
-                                      color: DailozColor.white,
-                                      constraints: BoxConstraints(
-                                        maxWidth: width / 2.8,
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(14)),
-                                      icon: Image.asset(
-                                        DailozPngimage.dot,
-                                        height: height / 36,
-                                        fit: BoxFit.fitHeight,
-                                      ),
-                                      elevation: 2,
-                                    ),
-                                  )
-                                ] else ...[
-                                  SizedBox(
-                                    height: height / 22,
-                                    width: height / 26,
-                                    child: PopupMenuButton<int>(
-                                      itemBuilder: (context) => [
-                                        PopupMenuItem(
-                                          value: 1,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.closeSquare,
-                                                height: height / 36,
-                                                color: DailozColor.black,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Disable",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 2,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.editSquare,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Edit",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 3,
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                DailozPngimage.delete,
-                                                height: height / 36,
-                                              ),
-                                              SizedBox(
-                                                width: width / 36,
-                                              ),
-                                              Text(
-                                                "Delete",
-                                                style: hsRegular.copyWith(
-                                                    fontSize: 16,
-                                                    color: DailozColor.black),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                      offset: const Offset(5, 50),
-                                      color: DailozColor.white,
-                                      constraints: BoxConstraints(
-                                        maxWidth: width / 2.8,
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(14)),
-                                      icon: Image.asset(
-                                        DailozPngimage.dot,
-                                        height: height / 36,
-                                        fit: BoxFit.fitHeight,
-                                      ),
-                                      elevation: 2,
-                                    ),
-                                  )
-                                ]
-                              ],
-                            ),
-                            Text(
-                              "07:00 - 07:15",
-                              style: hsRegular.copyWith(
-                                  fontSize: 14,
-                                  color: DailozColor.textappcolor),
-                            ),
-                            SizedBox(
-                              height: height / 46,
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                    decoration: BoxDecoration(
-                                        color: const Color(0xffFFE9ED),
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: width / 36,
-                                          vertical: height / 120),
-                                      child: Text(
-                                        "Urgent",
-                                        style: hsMedium.copyWith(
-                                            fontSize: 10,
-                                            color: DailozColor.lightred),
-                                      ),
-                                    )),
-                                SizedBox(
-                                  width: width / 36,
-                                ),
-                                Container(
-                                    decoration: BoxDecoration(
-                                        color: widget.type == "Completed"
-                                            ? DailozColor.sky
-                                            : widget.type == "Canceled"
-                                                ? DailozColor.lightorange
-                                                : widget.type == "Pending"
-                                                    ? DailozColor.lightpurple
-                                                    : DailozColor.parrot,
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: width / 36,
-                                          vertical: height / 120),
-                                      child: Text(
-                                        "Home",
-                                        style: hsMedium.copyWith(
-                                          fontSize: 10,
-                                          color: widget.type == "Completed"
-                                              ? DailozColor.textblue
-                                              : widget.type == "Canceled"
-                                                  ? DailozColor.lightred
-                                                  : widget.type == "Pending"
-                                                      ? DailozColor.purple
-                                                      : DailozColor.lightgreen,
-                                        ),
-                                      ),
-                                    )),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+      body: widget.type == "Completed"
+          ? Text('')
+
+          //TODO: completed widgets build here
+          : widget.type == "Canceled"
+              ? Text('data') //TODO: canceled widgets build here
+              : widget.type == "Pending"
+                  ? Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: SizedBox(
+                          height: height / 1,
+                          child: ValueListenableBuilder<Box<taskModel>>(
+                            valueListenable: Boxes.getData().listenable(),
+                            builder: (context, box, _) {
+                              // var data = box.values.toList().cast<taskModel>();
+                              var data = box.values.toList().cast<taskModel>();
+                              return GridView.count(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 10,
+                                children: new List<Widget>.generate(box.length,
+                                    (index) {
+                                  return ReusableContainer(
+                                      width: MediaQuery.of(context).size.width,
+                                      height:
+                                          MediaQuery.of(context).size.height,
+                                      title: data[index].title.toString(),
+                                      time: '7:90',
+                                      urgency: 'Urgent',
+                                      location: data[index].status.toString(),
+                                      type: data[index].tasktype.toString(),
+                                      onMenuItemSelected: (value) {
+                                        if (value == 1) {}
+                                      });
+                                }),
+                              );
+                            },
+                          )),
+                    ) //TODO: pending widgets build here
+                  : Text(''), //TODO: on going widgets build here
+//       SingleChildScrollView(
+//         child: Padding(
+//           padding: EdgeInsets.symmetric(
+//               horizontal: width / 36, vertical: height / 36),
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               Row(
+//                 children: [
+//                   SizedBox(
+//                     width: width / 1.35,
+//                     child: TextFormField(
+//                         cursorColor: DailozColor.black,
+//                         style: hsMedium.copyWith(
+//                             fontSize: 16, color: DailozColor.textgray),
+//                         decoration: InputDecoration(
+//                           hintText: 'Search for task'.tr,
+//                           filled: true,
+//                           fillColor: DailozColor.bggray,
+//                           prefixIcon: const Icon(
+//                             Icons.search,
+//                             size: 22,
+//                             color: DailozColor.grey,
+//                           ),
+//                           suffixIcon: Padding(
+//                             padding: const EdgeInsets.all(14),
+//                             child: Container(
+//                               height: height / 96,
+//                               width: height / 96,
+//                               decoration: BoxDecoration(
+//                                   borderRadius: BorderRadius.circular(5),
+//                                   color: DailozColor.textgray),
+//                               child: const Icon(
+//                                 Icons.close,
+//                                 size: 12,
+//                                 color: DailozColor.white,
+//                               ),
+//                             ),
+//                           ),
+//                           hintStyle: hsMedium.copyWith(
+//                               fontSize: 16, color: DailozColor.textgray),
+//                           border: OutlineInputBorder(
+//                               borderRadius: BorderRadius.circular(15),
+//                               borderSide: BorderSide.none),
+//                           focusedBorder: OutlineInputBorder(
+//                               borderRadius: BorderRadius.circular(15),
+//                               borderSide: BorderSide.none),
+//                         )),
+//                   ),
+//                   const Spacer(),
+//                   InkWell(
+//                     splashColor: DailozColor.transparent,
+//                     highlightColor: DailozColor.transparent,
+//                     onTap: () {
+//                       filter();
+//                     },
+//                     child: Container(
+//                         height: height / 13,
+//                         width: height / 13,
+//                         decoration: BoxDecoration(
+//                           borderRadius: BorderRadius.circular(14),
+//                           color: DailozColor.bggray,
+//                         ),
+//                         child: Padding(
+//                           padding: const EdgeInsets.all(13),
+//                           child: Image.asset(
+//                             DailozPngimage.filter,
+//                             height: height / 36,
+//                           ),
+//                         )),
+//                   ),
+//                 ],
+//               ),
+//               SizedBox(
+//                 height: height / 36,
+//               ),
+//               Row(
+//                 children: [
+//                   InkWell(
+//                       splashColor: DailozColor.transparent,
+//                       highlightColor: DailozColor.transparent,
+//                       onTap: () {
+//                         calendar();
+//                       },
+//                       child: Image.asset(
+//                         DailozPngimage.calendar,
+//                         height: height / 36,
+//                       )),
+//                   SizedBox(
+//                     width: width / 30,
+//                   ),
+//                   // Text(
+//                   //   "May 2021",
+//                   //   style: hsMedium.copyWith(fontSize: 20),
+//                   // ),
+//                 ],
+//               ),
+//               SizedBox(
+//                 height: height / 36,
+//               ),
+// //TODO: will fix the UI later it should be date wise like
+// // today should show on today and rest of pending
+// //task should be in under different dates
+
+//               SizedBox(
+//                   height: height / 5.7,
+//                   child: ValueListenableBuilder<Box<taskModel>>(
+//                     valueListenable: Boxes.getData().listenable(),
+//                     builder: (context, box, _) {
+//                       // var data = box.values.toList().cast<taskModel>();
+//                       var data = box.values.toList().cast<taskModel>();
+//                       return new GridView.count(
+//                         crossAxisCount: 2,
+//                         children:
+//                             new List<Widget>.generate(box.length, (index) {
+//                           return ReusableContainer(
+//                               width: MediaQuery.of(context).size.width,
+//                               height: MediaQuery.of(context).size.height,
+//                               title: data[index].title.toString(),
+//                               time: '7:90',
+//                               urgency: 'Urgent',
+//                               location: data[index].status.toString(),
+//                               type: data[index].tasktype.toString(),
+//                               onMenuItemSelected: (value) {
+//                                 if (value == 1) {}
+//                               });
+//                         }),
+//                       );
+//                     },
+//                   )),
+//             ],
+//           ),
+//         ),
+//       ),
     );
   }
   //TODO: Here is the UI of the all task date wise
