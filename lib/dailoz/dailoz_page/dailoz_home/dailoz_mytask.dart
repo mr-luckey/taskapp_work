@@ -96,11 +96,90 @@ class _DailozMyTaskState extends State<DailozMyTask> {
         ),
       ),
       body: widget.type == "Completed"
-          ? Text('')
+          ? Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: SizedBox(
+                height: height / 1,
+                child: ValueListenableBuilder<Box<taskModel>>(
+                  valueListenable: Boxes.getData().listenable(),
+                  builder: (context, box, _) {
+                    var data = box.values.toList().cast<taskModel>();
+                    var pendingTasks = data
+                        .where((task) => task.tasktype == 'Completed')
+                        .toList();
+
+                    return GridView.count(
+                      crossAxisCount: 2,
+                      shrinkWrap: true,
+                      mainAxisSpacing: 10,
+                      children:
+                          List<Widget>.generate(pendingTasks.length, (index) {
+                        if (index < pendingTasks.length) {
+                          return ReusableContainer(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height,
+                            title: pendingTasks[index].title.toString(),
+                            time: '7:90',
+                            urgency: 'Urgent',
+                            location: pendingTasks[index].status.toString(),
+                            type: pendingTasks[index].tasktype.toString(),
+                            onMenuItemSelected: (value) {
+                              if (value == 1) {}
+                            },
+                          );
+                        } else {
+                          return SizedBox.shrink();
+                        }
+                      }),
+                    );
+                  },
+                ),
+              ),
+            ) //TODO: pending widgets build here
 
           //TODO: completed widgets build here
           : widget.type == "Canceled"
-              ? Text('data') //TODO: canceled widgets build here
+              ? Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: SizedBox(
+                    height: height / 1,
+                    child: ValueListenableBuilder<Box<taskModel>>(
+                      valueListenable: Boxes.getData().listenable(),
+                      builder: (context, box, _) {
+                        var data = box.values.toList().cast<taskModel>();
+                        var pendingTasks = data
+                            .where((task) => task.tasktype == 'Canceled')
+                            .toList();
+
+                        return GridView.count(
+                          crossAxisCount: 2,
+                          shrinkWrap: true,
+                          mainAxisSpacing: 10,
+                          children: List<Widget>.generate(pendingTasks.length,
+                              (index) {
+                            if (index < pendingTasks.length) {
+                              return ReusableContainer(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height,
+                                title: pendingTasks[index].title.toString(),
+                                time: '7:90',
+                                urgency: 'Urgent',
+                                location: pendingTasks[index].status.toString(),
+                                type: pendingTasks[index].tasktype.toString(),
+                                onMenuItemSelected: (value) {
+                                  if (value == 1) {}
+                                },
+                              );
+                            } else {
+                              return SizedBox.shrink();
+                            }
+                          }),
+                        );
+                      },
+                    ),
+                  ),
+                ) //TODO: pending widgets build here
+              //TODO: canceled widgets build here
               : widget.type == "Pending"
                   ? Padding(
                       padding: const EdgeInsets.all(10.0),
@@ -144,7 +223,50 @@ class _DailozMyTaskState extends State<DailozMyTask> {
                         ),
                       ),
                     ) //TODO: pending widgets build here
-                  : Text(''), //TODO: on going widgets build here
+
+                  : Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: SizedBox(
+                        height: height / 1,
+                        child: ValueListenableBuilder<Box<taskModel>>(
+                          valueListenable: Boxes.getData().listenable(),
+                          builder: (context, box, _) {
+                            var data = box.values.toList().cast<taskModel>();
+                            var pendingTasks = data
+                                .where((task) => task.tasktype == 'On_Going')
+                                .toList();
+
+                            return GridView.count(
+                              crossAxisCount: 2,
+                              shrinkWrap: true,
+                              mainAxisSpacing: 10,
+                              children: List<Widget>.generate(
+                                  pendingTasks.length, (index) {
+                                if (index < pendingTasks.length) {
+                                  return ReusableContainer(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height,
+                                    title: pendingTasks[index].title.toString(),
+                                    time: '7:90',
+                                    urgency: 'Urgent',
+                                    location:
+                                        pendingTasks[index].status.toString(),
+                                    type:
+                                        pendingTasks[index].tasktype.toString(),
+                                    onMenuItemSelected: (value) {
+                                      if (value == 1) {}
+                                    },
+                                  );
+                                } else {
+                                  return SizedBox.shrink();
+                                }
+                              }),
+                            );
+                          },
+                        ),
+                      ),
+                    ) //TODO: pending widgets build here
+      , //TODO: on going widgets build here
 //       SingleChildScrollView(
 //         child: Padding(
 //           padding: EdgeInsets.symmetric(
