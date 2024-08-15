@@ -105,33 +105,44 @@ class _DailozMyTaskState extends State<DailozMyTask> {
                   ? Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: SizedBox(
-                          height: height / 1,
-                          child: ValueListenableBuilder<Box<taskModel>>(
-                            valueListenable: Boxes.getData().listenable(),
-                            builder: (context, box, _) {
-                              // var data = box.values.toList().cast<taskModel>();
-                              var data = box.values.toList().cast<taskModel>();
-                              return GridView.count(
-                                crossAxisCount: 2,
-                                mainAxisSpacing: 10,
-                                children: new List<Widget>.generate(box.length,
-                                    (index) {
+                        height: height / 1,
+                        child: ValueListenableBuilder<Box<taskModel>>(
+                          valueListenable: Boxes.getData().listenable(),
+                          builder: (context, box, _) {
+                            var data = box.values.toList().cast<taskModel>();
+                            var pendingTasks = data
+                                .where((task) => task.tasktype == 'Pending')
+                                .toList();
+
+                            return GridView.count(
+                              crossAxisCount: 2,
+                              shrinkWrap: true,
+                              mainAxisSpacing: 10,
+                              children: List<Widget>.generate(
+                                  pendingTasks.length, (index) {
+                                if (index < pendingTasks.length) {
                                   return ReusableContainer(
-                                      width: MediaQuery.of(context).size.width,
-                                      height:
-                                          MediaQuery.of(context).size.height,
-                                      title: data[index].title.toString(),
-                                      time: '7:90',
-                                      urgency: 'Urgent',
-                                      location: data[index].status.toString(),
-                                      type: data[index].tasktype.toString(),
-                                      onMenuItemSelected: (value) {
-                                        if (value == 1) {}
-                                      });
-                                }),
-                              );
-                            },
-                          )),
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height,
+                                    title: pendingTasks[index].title.toString(),
+                                    time: '7:90',
+                                    urgency: 'Urgent',
+                                    location:
+                                        pendingTasks[index].status.toString(),
+                                    type:
+                                        pendingTasks[index].tasktype.toString(),
+                                    onMenuItemSelected: (value) {
+                                      if (value == 1) {}
+                                    },
+                                  );
+                                } else {
+                                  return SizedBox.shrink();
+                                }
+                              }),
+                            );
+                          },
+                        ),
+                      ),
                     ) //TODO: pending widgets build here
                   : Text(''), //TODO: on going widgets build here
 //       SingleChildScrollView(

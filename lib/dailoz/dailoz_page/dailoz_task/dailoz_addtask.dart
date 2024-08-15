@@ -458,7 +458,7 @@ class _DailozAddTaskState extends State<DailozAddTask> {
                   print("ID: ${title.text} ${_startdatetimeController.text}");
 
                   var data = taskModel(
-                      tasktype: "Canceled",
+                      tasktype: "Pending",
                       title: title.text,
                       description: description.text,
                       status: type[checkBoxController.selectedCheckBox.value],

@@ -80,9 +80,10 @@ class ReusableContainer extends StatelessWidget {
         ];
       case "Pending":
         return [
-          _buildMenuItem(1, DailozPngimage.tickSquare, "Enable"),
+          _buildMenuItem(1, DailozPngimage.tickSquare, "Completed"),
           _buildMenuItem(2, DailozPngimage.editSquare, "Edit"),
           _buildMenuItem(3, DailozPngimage.delete, "Delete"),
+          // _buildMenuItem(4, DailozPngimage.Complete, "Completed")
         ];
       default:
         return [
@@ -93,7 +94,11 @@ class ReusableContainer extends StatelessWidget {
     }
   }
 
-  PopupMenuItem<int> _buildMenuItem(int value, String icon, String text) {
+  PopupMenuItem<int> _buildMenuItem(
+    int value,
+    var icon,
+    String text,
+  ) {
     return PopupMenuItem(
       value: value,
       child: Row(
