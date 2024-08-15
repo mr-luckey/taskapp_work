@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:taskapp_work/Controllers/task_controller.dart';
 import 'package:taskapp_work/Widgets/tile_card.dart';
+import 'package:taskapp_work/boxes/boxes.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_color.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_fontstyle.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_icons.dart';
 
+import '../../../models/taskModel.dart';
 import '../dailoz_task/dailoz_taskdetail.dart';
 import 'dailoz_mytask.dart';
 
@@ -16,9 +19,37 @@ class Dailozhome extends StatefulWidget {
 }
 
 class _DailozhomeState extends State<Dailozhome> {
+  // final TaskController taskcc = Get.put(TaskController());
   dynamic size;
   double height = 0.00;
   double width = 0.00;
+
+  // var data = Boxes.getData().values.toList().cast<taskModel>();
+
+  var CompletedTasks = Boxes.getData()
+      .values
+      .toList()
+      .cast<taskModel>()
+      .where((task) => task.tasktype == 'Completed')
+      .toList();
+  var PendingTasks = Boxes.getData()
+      .values
+      .toList()
+      .cast<taskModel>()
+      .where((task) => task.tasktype == 'Pending')
+      .toList();
+  var OngoingTasks = Boxes.getData()
+      .values
+      .toList()
+      .cast<taskModel>()
+      .where((task) => task.tasktype == 'On_Going')
+      .toList();
+  var CanceledTasks = Boxes.getData()
+      .values
+      .toList()
+      .cast<taskModel>()
+      .where((task) => task.tasktype == 'Canceled')
+      .toList();
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
@@ -131,7 +162,7 @@ class _DailozhomeState extends State<Dailozhome> {
                                   height: height / 120,
                                 ),
                                 Text(
-                                  "86 Task", //TODO: Task should be managed using getx
+                                  "${CompletedTasks.length} Task",
                                   style: hsRegular.copyWith(
                                       fontSize: 14, color: DailozColor.black),
                                 ),
@@ -193,9 +224,9 @@ class _DailozhomeState extends State<Dailozhome> {
                                   height: height / 120,
                                 ),
                                 Text(
-                                  "15 Task",
+                                  "${CanceledTasks.length} Task",
                                   style: hsRegular.copyWith(
-                                      fontSize: 14, color: DailozColor.white),
+                                      fontSize: 14, color: DailozColor.black),
                                 ),
                               ],
                             ),
@@ -257,9 +288,9 @@ class _DailozhomeState extends State<Dailozhome> {
                                   height: height / 120,
                                 ),
                                 Text(
-                                  "15 Task",
+                                  "${PendingTasks.length} Task",
                                   style: hsRegular.copyWith(
-                                      fontSize: 14, color: DailozColor.white),
+                                      fontSize: 14, color: DailozColor.black),
                                 ),
                               ],
                             ),
@@ -319,7 +350,7 @@ class _DailozhomeState extends State<Dailozhome> {
                                   height: height / 120,
                                 ),
                                 Text(
-                                  "67 Task",
+                                  "${OngoingTasks.length} Task",
                                   style: hsRegular.copyWith(
                                       fontSize: 14, color: DailozColor.black),
                                 ),

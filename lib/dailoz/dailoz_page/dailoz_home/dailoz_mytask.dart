@@ -125,6 +125,9 @@ class _DailozMyTaskState extends State<DailozMyTask> {
                             type: pendingTasks[index].tasktype.toString(),
                             onMenuItemSelected: (value) {
                               if (value == 1) {
+                                var task = pendingTasks[index];
+                                task.tasktype = 'On_Going';
+                                task.save();
                                 print(
                                     "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
                               }
@@ -170,7 +173,23 @@ class _DailozMyTaskState extends State<DailozMyTask> {
                                 location: pendingTasks[index].status.toString(),
                                 type: pendingTasks[index].tasktype.toString(),
                                 onMenuItemSelected: (value) {
-                                  if (value == 1) {}
+                                  if (value == 1) {
+                                    print(
+                                        "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                                    var task = pendingTasks[index];
+                                    print(task);
+                                    task.tasktype = 'On_Going';
+                                    task.save();
+                                    print(
+                                        "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                                  }
+                                  // if (value == 1) {
+                                  //   var task = pendingTasks[index];
+                                  //   task.tasktype = 'On_Going';
+                                  //   task.save();
+                                  //   print(
+                                  //       "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                                  // }
                                 },
                               );
                             } else {
@@ -214,7 +233,25 @@ class _DailozMyTaskState extends State<DailozMyTask> {
                                     type:
                                         pendingTasks[index].tasktype.toString(),
                                     onMenuItemSelected: (value) {
-                                      if (value == 1) {}
+                                      if (value == 1) {
+                                        var task = pendingTasks[index];
+                                        task.tasktype = 'Completed';
+                                        task.save();
+                                        print(
+                                            "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                                      } else if (value == 2) {
+                                        var task = pendingTasks[index];
+                                        task.tasktype = 'On_Going';
+                                        task.save();
+                                        print(
+                                            "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                                      } else if (value == 3) {
+                                        var task = pendingTasks[index];
+                                        task.tasktype = 'Canceled';
+                                        task.save();
+                                        print(
+                                            "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                                      }
                                     },
                                   );
                                 } else {
@@ -257,7 +294,25 @@ class _DailozMyTaskState extends State<DailozMyTask> {
                                     type:
                                         pendingTasks[index].tasktype.toString(),
                                     onMenuItemSelected: (value) {
-                                      if (value == 1) {}
+                                      if (value == 1) {
+                                        var task = pendingTasks[index];
+                                        task.tasktype = 'Completed';
+                                        task.save();
+                                        print(
+                                            "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                                      } else if (value == 2) {
+                                        var task = pendingTasks[index];
+                                        task.tasktype = 'Pending';
+                                        task.save();
+                                        print(
+                                            "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                                      } else if (value == 3) {
+                                        var task = pendingTasks[index];
+                                        task.tasktype = 'Canceled';
+                                        task.save();
+                                        print(
+                                            "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                                      }
                                     },
                                   );
                                 } else {
