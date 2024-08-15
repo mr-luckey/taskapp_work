@@ -69,27 +69,29 @@ class ReusableContainer extends StatelessWidget {
     switch (type) {
       case "Completed":
         return [
-          _buildMenuItem(1, DailozPngimage.upload, "Restore"),
-          _buildMenuItem(2, DailozPngimage.delete, "Delete"),
+          _buildMenuItem(1, DailozPngimage.upload, "On_Going"),
+          // _buildMenuItem(2, DailozPngimage.delete, "Delete"),
         ];
       case "Canceled":
         return [
-          _buildMenuItem(1, DailozPngimage.editSquare, "Edit"),
-          _buildMenuItem(2, DailozPngimage.upload, "Restore"),
-          _buildMenuItem(3, DailozPngimage.delete, "Delete"),
+          // _buildMenuItem(1, DailozPngimage.editSquare, "Edit"),
+          _buildMenuItem(2, DailozPngimage.upload, "On_going"),
+          // _buildMenuItem(3, DailozPngimage.delete, "Delete"),
         ];
       case "Pending":
         return [
           _buildMenuItem(1, DailozPngimage.tickSquare, "Completed"),
-          _buildMenuItem(2, DailozPngimage.editSquare, "Edit"),
-          _buildMenuItem(3, DailozPngimage.delete, "Delete"),
+          _buildMenuItem(1, DailozPngimage.editSquare, "Edit"),
+
+          _buildMenuItem(2, DailozPngimage.upload, "On_going"),
+          _buildMenuItem(3, DailozPngimage.delete, "Cancel"),
           // _buildMenuItem(4, DailozPngimage.Complete, "Completed")
         ];
       default:
         return [
-          _buildMenuItem(1, DailozPngimage.closeSquare, "Disable"),
-          _buildMenuItem(2, DailozPngimage.editSquare, "Edit"),
-          _buildMenuItem(3, DailozPngimage.delete, "Delete"),
+          _buildMenuItem(1, DailozPngimage.closeSquare, "Completed"),
+          _buildMenuItem(2, DailozPngimage.editSquare, "Pending"),
+          _buildMenuItem(3, DailozPngimage.delete, "Cancel"),
         ];
     }
   }

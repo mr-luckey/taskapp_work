@@ -124,11 +124,14 @@ class _DailozMyTaskState extends State<DailozMyTask> {
                             location: pendingTasks[index].status.toString(),
                             type: pendingTasks[index].tasktype.toString(),
                             onMenuItemSelected: (value) {
-                              if (value == 1) {}
+                              if (value == 1) {
+                                print(
+                                    "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                              }
                             },
                           );
                         } else {
-                          return SizedBox.shrink();
+                          return const SizedBox.shrink();
                         }
                       }),
                     );
