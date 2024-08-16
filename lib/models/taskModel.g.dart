@@ -22,8 +22,10 @@ class taskModelAdapter extends TypeAdapter<taskModel> {
       status: fields[2] as String?,
       tags: (fields[3] as List).cast<String>(),
       ID: fields[4] as String?,
-      startdatetime: fields[5] as String?,
-      enddatetime: fields[6] as String?,
+      startdate: fields[8] as String?,
+      enddate: fields[9] as String?,
+      starttime: fields[5] as String?,
+      endtime: fields[6] as String?,
       tasktype: fields[7] as String?,
     );
   }
@@ -31,7 +33,7 @@ class taskModelAdapter extends TypeAdapter<taskModel> {
   @override
   void write(BinaryWriter writer, taskModel obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -43,11 +45,15 @@ class taskModelAdapter extends TypeAdapter<taskModel> {
       ..writeByte(4)
       ..write(obj.ID)
       ..writeByte(5)
-      ..write(obj.startdatetime)
+      ..write(obj.starttime)
       ..writeByte(6)
-      ..write(obj.enddatetime)
+      ..write(obj.endtime)
       ..writeByte(7)
-      ..write(obj.tasktype);
+      ..write(obj.tasktype)
+      ..writeByte(8)
+      ..write(obj.startdate)
+      ..writeByte(9)
+      ..write(obj.enddate);
   }
 
   @override

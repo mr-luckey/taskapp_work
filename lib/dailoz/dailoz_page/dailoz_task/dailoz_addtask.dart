@@ -19,9 +19,8 @@ class DailozAddTask extends StatefulWidget {
 class _DailozAddTaskState extends State<DailozAddTask> {
   dynamic size;
   double height = 0.00;
-  final TextEditingController _startdatetimeController =
-      TextEditingController();
-  final TextEditingController _enddatetimeController = TextEditingController();
+  final TextEditingController startdatetimeController = TextEditingController();
+  final TextEditingController enddatetimeController = TextEditingController();
   // final DatetimeController _dateTimeController = Get.put(DatetimeController());
   double width = 0.00;
   int isselected = 0;
@@ -51,6 +50,10 @@ class _DailozAddTaskState extends State<DailozAddTask> {
 
   TextEditingController title = TextEditingController();
   TextEditingController description = TextEditingController();
+  String selectedstartdate = '';
+  String selectededdate = '';
+  DateTime? _pickedDate;
+  TimeOfDay? _pickedTime;
 
   final TagController tagController = Get.put(TagController());
   Future<void> _selectstartDate(
@@ -70,23 +73,24 @@ class _DailozAddTaskState extends State<DailozAddTask> {
       );
 
       if (pickedTime != null) {
-        final DateTime combinedDateTime = DateTime(
-          pickedDate.year,
-          pickedDate.month,
-          pickedDate.day,
-          pickedTime.hour,
-          pickedTime.minute,
-        );
-
         setState(() {
-          _startdatetimeController.text =
-              DateFormat('hh:mm a dd-MM-yyyy').format(combinedDateTime);
+          _pickedDate = pickedDate; // Save picked date to a variable
+          _pickedTime = pickedTime; // Save picked time to a variable
+          print(pickedTime);
+          print(pickedDate.toLocal().toString().split(' ')[0]);
+          selectedstartdate = pickedDate.toLocal().toString().split(' ')[0];
+          print("checking");
+          //TODO: model variable creation and then save start date in it
+          // Format the picked time to a readable string
+          print(selectedstartdate);
+          final String formattedTime = pickedTime.format(context);
+          startdatetimeController.text = formattedTime;
         });
       }
     }
   }
 
-  Future<void> _selectendDate(
+  Future<void> _endselectDate(
     BuildContext context,
   ) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -112,8 +116,14 @@ class _DailozAddTaskState extends State<DailozAddTask> {
         );
 
         setState(() {
-          _enddatetimeController.text =
-              DateFormat('hh:mm a dd-MM-yyyy').format(combinedDateTime);
+          _pickedDate = pickedDate; // Save picked date to a variable
+          _pickedTime = pickedTime; // Save picked time to a variable
+          print(pickedTime);
+          selectededdate = pickedDate.toLocal().toString().split(' ')[0];
+//TODO: model enddate creation and set data
+          // Format the picked time to a readable string
+          final String formattedTime = pickedTime.format(context);
+          enddatetimeController.text = formattedTime;
         });
       }
     }
@@ -208,7 +218,7 @@ class _DailozAddTaskState extends State<DailozAddTask> {
                           _selectstartDate(context);
                         },
                         child: TextField(
-                          controller: _startdatetimeController,
+                          controller: startdatetimeController,
                           // controller: _dateTimeController.startTime,
 
                           // controller: controllerpicker.,
@@ -241,9 +251,9 @@ class _DailozAddTaskState extends State<DailozAddTask> {
                         // TimeInputField(),
                         TextField(
                       onTap: () {
-                        _selectendDate(context);
+                        _endselectDate(context);
                       },
-                      controller: _enddatetimeController,
+                      controller: enddatetimeController,
                       style: hsMedium.copyWith(
                           fontSize: 16,
                           color: themedata.isdark
@@ -453,20 +463,23 @@ class _DailozAddTaskState extends State<DailozAddTask> {
                   print(
                       "Status: ${type[checkBoxController.selectedCheckBox.value]}");
                   print("Tags: ${tagController.selectedTags.join(', ')}");
-                  print("Start Date: ${_startdatetimeController.text}");
-                  print("End Date: ${_enddatetimeController.text}");
-                  print("ID: ${title.text} ${_startdatetimeController.text}");
+                  print("Start Date: ${startdatetimeController.text}");
+                  print("End Date: ${enddatetimeController.text}");
+                  print("ID: ${title.text} ${startdatetimeController.text}");
 
                   var data = taskModel(
-                      tasktype: "Pending",
-                      title: title.text,
-                      description: description.text,
-                      status: type[checkBoxController.selectedCheckBox.value],
-                      tags: tagController
-                          .selectedTags, // Storing tags as a comma-separated string
-                      ID: '${title.text} ${_startdatetimeController.text}',
-                      startdatetime: _startdatetimeController.text,
-                      enddatetime: _enddatetimeController.text);
+                    tasktype: "Pending",
+                    title: title.text,
+                    description: description.text,
+                    status: type[checkBoxController.selectedCheckBox.value],
+                    tags: tagController
+                        .selectedTags, // Storing tags as a comma-separated string
+                    ID: '${title.text} ${startdatetimeController.text}',
+                    starttime: startdatetimeController.text,
+                    endtime: enddatetimeController.text,
+                    startdate: selectedstartdate,
+                    enddate: selectededdate,
+                  );
 
                   final box = Boxes.getData();
                   box.add(data);
