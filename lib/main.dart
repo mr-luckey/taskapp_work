@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:taskapp_work/models/taskModel.dart';
+import 'package:taskapp_work/test/testscreen.dart';
 
 import 'dailoz/dailoz_page/dailoz_Authentication/dailoz_splashscreen.dart';
 import 'dailoz/dailoz_theme/dailoz_theme.dart';
@@ -43,7 +44,9 @@ class _MyAppState extends State<MyApp> {
       fallbackLocale: const Locale('en', 'US'),
       translations: DailozApptranslation(),
       locale: const Locale('en', 'US'),
-      home: const DailozSplashscreen(),
+      home:
+          //  HourlyTasksScreen()
+          const DailozSplashscreen(),
     );
   }
 }

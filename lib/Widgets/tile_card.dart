@@ -49,29 +49,35 @@ class TaskCard extends StatelessWidget {
                   hsRegular.copyWith(fontSize: 14, color: DailozColor.textgray),
             ),
             SizedBox(height: MediaQuery.of(context).size.height / 66),
-            Row(
-              children: tags.map((tag) {
-                return Padding(
-                  padding: EdgeInsets.only(
-                      right: MediaQuery.of(context).size.width / 36),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Color(0x338F99EB),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width / 36,
-                          vertical: MediaQuery.of(context).size.height / 120),
-                      child: Text(
-                        tag,
-                        style: hsMedium.copyWith(
-                            fontSize: 10, color: DailozColor.appcolor),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: tags.map((tag) {
+                  return Padding(
+                    padding: EdgeInsets.only(
+                        right: MediaQuery.of(context).size.width / 36),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0x338F99EB),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.of(context).size.width / 36,
+                            vertical: MediaQuery.of(context).size.height / 120),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Text(
+                            tag,
+                            style: hsMedium.copyWith(
+                                fontSize: 10, color: DailozColor.appcolor),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                );
-              }).toList(),
+                  );
+                }).toList(),
+              ),
             ),
           ],
         ),

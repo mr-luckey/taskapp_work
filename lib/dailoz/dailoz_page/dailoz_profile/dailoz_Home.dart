@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:taskapp_work/Widgets/cuntom%20cardprofile.dart';
-import 'package:taskapp_work/Widgets/tile_card.dart';
 import 'package:taskapp_work/boxes/boxes.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_color.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_fontstyle.dart';
@@ -12,14 +11,14 @@ import 'package:taskapp_work/models/taskModel.dart';
 import '../dailoz_task/dailoz_taskdetail.dart';
 import 'dailoz_addpersonal.dart';
 
-class DailozWork extends StatefulWidget {
-  const DailozWork({Key? key}) : super(key: key);
+class DailozPrivate extends StatefulWidget {
+  const DailozPrivate({Key? key}) : super(key: key);
 
   @override
-  State<DailozWork> createState() => _DailozWorkState();
+  State<DailozPrivate> createState() => _DailozPrivateState();
 }
 
-class _DailozWorkState extends State<DailozWork> {
+class _DailozPrivateState extends State<DailozPrivate> {
   dynamic size;
   double height = 0.00;
   double width = 0.00;
@@ -59,7 +58,7 @@ class _DailozWorkState extends State<DailozWork> {
           ),
         ),
         title: Text(
-          "Work".tr,
+          "Home".tr,
           style: hsSemiBold.copyWith(fontSize: 18),
         ),
       ),
@@ -146,7 +145,7 @@ class _DailozWorkState extends State<DailozWork> {
                     var data = box.values.toList().cast<taskModel>();
 
                     var eventstask = data.where((task) {
-                      return task.tags.contains('Work');
+                      return task.tags.contains("Home");
                     }).toList();
 
                     return ListView.builder(
@@ -168,17 +167,17 @@ class _DailozWorkState extends State<DailozWork> {
                             ));
                           },
                           child: CustomDecoratedText(
-                            title: task.title.toString(),
-                            time: "${task.starttime} - ${task.endtime}",
-                            titleColor: DailozColor.black,
-                            timeColor: DailozColor.textgray,
-                            containerColor: DailozColor.bgsky,
-                            tags: task.tags, // Tags list
-                            tagTextColor:
-                                DailozColor.textblue, // Set the tag text color
-                            tagBackgroundColor: const Color(
-                                0x2637C5FF), // Set the tag background color
-                          ),
+                              title: task.title.toString(),
+                              time: "${task.starttime} - ${task.endtime}",
+                              titleColor: DailozColor.black,
+                              timeColor: DailozColor.textgray,
+                              containerColor: DailozColor.bgred,
+                              tags: task.tags, // Tags list
+                              tagTextColor: DailozColor
+                                  .lightred, // Set the tag text color
+                              tagBackgroundColor: DailozColor
+                                  .lightorange // Set the tag background color
+                              ),
                         );
                       },
                     );
@@ -205,7 +204,7 @@ class _DailozWorkState extends State<DailozWork> {
               //         margin: EdgeInsets.only(bottom: height / 46),
               //         decoration: BoxDecoration(
               //             borderRadius: BorderRadius.circular(14),
-              //             color: DailozColor.bgsky),
+              //             color: DailozColor.bgred),
               //         child: Padding(
               //           padding: EdgeInsets.symmetric(
               //               horizontal: width / 36, vertical: height / 66),
@@ -241,7 +240,7 @@ class _DailozWorkState extends State<DailozWork> {
               //                 children: [
               //                   Container(
               //                       decoration: BoxDecoration(
-              //                           color: const Color(0x2637C5FF),
+              //                           color: DailozColor.lightorange,
               //                           borderRadius: BorderRadius.circular(5)),
               //                       child: Padding(
               //                         padding: EdgeInsets.symmetric(
@@ -251,7 +250,7 @@ class _DailozWorkState extends State<DailozWork> {
               //                           "Urgent",
               //                           style: hsMedium.copyWith(
               //                               fontSize: 10,
-              //                               color: DailozColor.textblue),
+              //                               color: DailozColor.lightred),
               //                         ),
               //                       )),
               //                   SizedBox(
@@ -259,7 +258,7 @@ class _DailozWorkState extends State<DailozWork> {
               //                   ),
               //                   Container(
               //                       decoration: BoxDecoration(
-              //                           color: const Color(0x2637C5FF),
+              //                           color: DailozColor.lightorange,
               //                           borderRadius: BorderRadius.circular(5)),
               //                       child: Padding(
               //                         padding: EdgeInsets.symmetric(
@@ -269,7 +268,7 @@ class _DailozWorkState extends State<DailozWork> {
               //                           "Home",
               //                           style: hsMedium.copyWith(
               //                               fontSize: 10,
-              //                               color: DailozColor.textblue),
+              //                               color: DailozColor.lightred),
               //                         ),
               //                       )),
               //                 ],
@@ -290,7 +289,7 @@ class _DailozWorkState extends State<DailozWork> {
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(
             builder: (context) {
-              return DailozAddPersonal("work");
+              return DailozAddPersonal("private");
             },
           ));
         },

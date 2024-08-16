@@ -30,13 +30,15 @@ class _DailozAddTaskState extends State<DailozAddTask> {
   final themedata = Get.put(DailozThemecontroler());
   List type = ["Personal", "Private", "Secret"];
 
-  List tag = ["Office", "Home", "Urgent", "Work"];
+  List tag = ["Office", "Home", "Urgent", "Work", "Event", "Meeting"];
 
   List color = [
     DailozColor.bgpurple,
     DailozColor.bgred,
     const Color(0xffFFE9ED),
     DailozColor.bgsky,
+    DailozColor.bgpurple,
+    DailozColor.parrot
   ];
 
   List textcolor = [
@@ -44,6 +46,8 @@ class _DailozAddTaskState extends State<DailozAddTask> {
     DailozColor.lightred,
     DailozColor.lightred,
     DailozColor.textblue,
+    DailozColor.purple,
+    DailozColor.lightgreen
   ];
 
   final CheckBoxController checkBoxController = Get.put(CheckBoxController());
@@ -361,46 +365,49 @@ class _DailozAddTaskState extends State<DailozAddTask> {
               SizedBox(
                 height: height / 36,
               ),
-              SizedBox(
-                height: height / 21,
-                child: ListView.builder(
-                  itemCount: tag.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        tagController.updateTag(tag[index]);
-                      },
-                      child: Obx(() => Container(
-                            margin: EdgeInsets.only(right: width / 36),
-                            height: height / 22,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: tagController.selectedTags
-                                      .contains(tag[index])
-                                  ? Colors.blue // Highlight selected tag
-                                  : color[index],
-                            ),
-                            child: Center(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: width / 20),
-                                child: Text(
-                                  tag[index],
-                                  style: hsRegular.copyWith(
-                                    fontSize: 14,
-                                    color: tagController.selectedTags
-                                            .contains(tag[index])
-                                        ? Colors
-                                            .white // Change text color for selected tag
-                                        : textcolor[index],
+              SingleChildScrollView(
+                child: SizedBox(
+                  height: height / 21,
+                  child: ListView.builder(
+                    itemCount: tag.length,
+                    // itemCount: tag.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          tagController.updateTag(tag[index]);
+                        },
+                        child: Obx(() => Container(
+                              margin: EdgeInsets.only(right: width / 36),
+                              height: height / 22,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: tagController.selectedTags
+                                        .contains(tag[index])
+                                    ? Colors.blue // Highlight selected tag
+                                    : color[index],
+                              ),
+                              child: Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: width / 20),
+                                  child: Text(
+                                    tag[index],
+                                    style: hsRegular.copyWith(
+                                      fontSize: 14,
+                                      color: tagController.selectedTags
+                                              .contains(tag[index])
+                                          ? Colors
+                                              .white // Change text color for selected tag
+                                          : textcolor[index],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          )),
-                    );
-                  },
+                            )),
+                      );
+                    },
+                  ),
                 ),
               ),
 
@@ -458,6 +465,34 @@ class _DailozAddTaskState extends State<DailozAddTask> {
                 //   data.save();
                 // },
                 onTap: () {
+                  // Check if all text fields are filled
+                  if (title.text.isEmpty ||
+                      description.text.isEmpty ||
+                      startdatetimeController.text.isEmpty ||
+                      enddatetimeController.text.isEmpty) {
+                    Get.snackbar(
+                      "Error",
+                      "Please fill all the fields.",
+                      snackPosition: SnackPosition.BOTTOM,
+                      backgroundColor: Colors.red,
+                      colorText: Colors.white,
+                    );
+                    return;
+                  }
+
+                  // Check if at least one tag is selected
+                  if (tagController.selectedTags.isEmpty) {
+                    Get.snackbar(
+                      "Error",
+                      "Please select at least one tag.",
+                      snackPosition: SnackPosition.BOTTOM,
+                      backgroundColor: Colors.red,
+                      colorText: Colors.white,
+                    );
+                    return;
+                  }
+
+                  // Proceed to save the data if all checks are passed
                   print("Title: ${title.text}");
                   print("Description: ${description.text}");
                   print(
@@ -473,7 +508,7 @@ class _DailozAddTaskState extends State<DailozAddTask> {
                     description: description.text,
                     status: type[checkBoxController.selectedCheckBox.value],
                     tags: tagController
-                        .selectedTags, // Storing tags as a comma-separated string
+                        .selectedTags, // Store as comma-separated string
                     ID: '${title.text} ${startdatetimeController.text}',
                     starttime: startdatetimeController.text,
                     endtime: enddatetimeController.text,
@@ -484,7 +519,48 @@ class _DailozAddTaskState extends State<DailozAddTask> {
                   final box = Boxes.getData();
                   box.add(data);
                   data.save();
+
+                  Get.snackbar(
+                    "Success",
+                    "Task created successfully!",
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.green,
+                    colorText: Colors.white,
+                  );
+
+                  Navigator.pop(
+                      context); // Optionally, close the screen after saving
                 },
+
+                // onTap: () {
+
+                //   print("Title: ${title.text}");
+                //   print("Description: ${description.text}");
+                //   print(
+                //       "Status: ${type[checkBoxController.selectedCheckBox.value]}");
+                //   print("Tags: ${tagController.selectedTags.join(', ')}");
+                //   print("Start Date: ${startdatetimeController.text}");
+                //   print("End Date: ${enddatetimeController.text}");
+                //   print("ID: ${title.text} ${startdatetimeController.text}");
+
+                //   var data = taskModel(
+                //     tasktype: "Pending",
+                //     title: title.text,
+                //     description: description.text,
+                //     status: type[checkBoxController.selectedCheckBox.value],
+                //     tags: tagController
+                //         .selectedTags, // Storing tags as a comma-separated string
+                //     ID: '${title.text} ${startdatetimeController.text}',
+                //     starttime: startdatetimeController.text,
+                //     endtime: enddatetimeController.text,
+                //     startdate: selectedstartdate,
+                //     enddate: selectededdate,
+                //   );
+
+                //   final box = Boxes.getData();
+                //   box.add(data);
+                //   data.save();
+                // },
 
                 child: Container(
                   width: width / 1,

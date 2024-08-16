@@ -3,11 +3,12 @@ import 'package:get/get.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_color.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_fontstyle.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_icons.dart';
+import 'package:taskapp_work/dailoz/dailoz_page/dailoz_profile/Urgenttasks.dart';
 import '../../dailoz_theme/dailoz_themecontroller.dart';
 import 'dailoz_event.dart';
 import 'dailoz_meeting.dart';
-import 'dailoz_personal.dart';
-import 'dailoz_private.dart';
+import 'dailoz_Office.dart';
+import 'dailoz_Home.dart';
 import 'dailoz_setting.dart';
 import 'dailoz_work.dart';
 
@@ -32,108 +33,113 @@ class _DailozProfileState extends State<DailozProfile> {
     height = size.height;
     width = size.width;
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: InkWell(
-              splashColor: DailozColor.transparent,
-              highlightColor: DailozColor.transparent,
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Container(
-                height: height / 20,
-                width: height / 20,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: DailozColor.white,
-                    boxShadow: const [
-                      BoxShadow(color: DailozColor.textgray, blurRadius: 5)
-                    ]),
-                child: SizedBox(
-                  height: height / 22,
-                  width: height / 26,
-                  child: PopupMenuButton<int>(
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                        value: 1,
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              DailozPngimage.setting,
-                              height: height / 36,
-                            ),
-                            SizedBox(
-                              width: width / 36,
-                            ),
-                            Text(
-                              "Setting".tr,
-                              style: hsRegular.copyWith(
-                                  fontSize: 16, color: DailozColor.black),
-                            ),
-                          ],
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: 2,
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              DailozPngimage.logout,
-                              height: height / 36,
-                            ),
-                            SizedBox(
-                              width: width / 36,
-                            ),
-                            Text(
-                              "Log_Out".tr,
-                              style: hsRegular.copyWith(
-                                  fontSize: 16, color: DailozColor.black),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                    offset: const Offset(5, 50),
-                    color: DailozColor.white,
-                    constraints: BoxConstraints(
-                      maxWidth: width / 2.8,
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14)),
-                    icon: Image.asset(
-                      DailozPngimage.moreSquare,
-                      height: height / 36,
-                    ),
-                    elevation: 2,
-                    onSelected: (value) {
-                      // if value 1 show dialog
-                      if (value == 1) {
-                        Navigator.push(context, MaterialPageRoute(
-                          builder: (context) {
-                            return const DailozSetting();
-                          },
-                        ));
-                        // if value 2 show dialog
-                      } else if (value == 2) {
-                        logout();
-                      }
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   automaticallyImplyLeading: false,
+      //   actions: [
+      //     Padding(
+      //       padding: const EdgeInsets.all(10),
+      //       child: InkWell(
+      //         splashColor: DailozColor.transparent,
+      //         highlightColor: DailozColor.transparent,
+      //         onTap: () {
+      //           Navigator.pop(context);
+      //         },
+      //         child: Container(
+      //           height: height / 20,
+      //           width: height / 20,
+      //           decoration: BoxDecoration(
+      //               borderRadius: BorderRadius.circular(5),
+      //               color: DailozColor.white,
+      //               boxShadow: const [
+      //                 BoxShadow(color: DailozColor.textgray, blurRadius: 5)
+      //               ]),
+      //           child: SizedBox(
+      //             height: height / 22,
+      //             width: height / 26,
+      //             child: PopupMenuButton<int>(
+      //               itemBuilder: (context) => [
+      //                 PopupMenuItem(
+      //                   value: 1,
+      //                   child: Row(
+      //                     children: [
+      //                       Image.asset(
+      //                         DailozPngimage.setting,
+      //                         height: height / 36,
+      //                       ),
+      //                       SizedBox(
+      //                         width: width / 36,
+      //                       ),
+      //                       Text(
+      //                         "Setting".tr,
+      //                         style: hsRegular.copyWith(
+      //                             fontSize: 16, color: DailozColor.black),
+      //                       ),
+      //                     ],
+      //                   ),
+      //                 ),
+      //                 PopupMenuItem(
+      //                   value: 2,
+      //                   child: Row(
+      //                     children: [
+      //                       Image.asset(
+      //                         DailozPngimage.logout,
+      //                         height: height / 36,
+      //                       ),
+      //                       SizedBox(
+      //                         width: width / 36,
+      //                       ),
+      //                       Text(
+      //                         "Log_Out".tr,
+      //                         style: hsRegular.copyWith(
+      //                             fontSize: 16, color: DailozColor.black),
+      //                       ),
+      //                     ],
+      //                   ),
+      //                 )
+      //               ],
+      //               offset: const Offset(5, 50),
+      //               color: DailozColor.white,
+      //               constraints: BoxConstraints(
+      //                 maxWidth: width / 2.8,
+      //               ),
+      //               shape: RoundedRectangleBorder(
+      //                   borderRadius: BorderRadius.circular(14)),
+      //               icon: Image.asset(
+      //                 DailozPngimage.moreSquare,
+      //                 height: height / 36,
+      //               ),
+      //               elevation: 2,
+      //               onSelected: (value) {
+      //                 // if value 1 show dialog
+      //                 if (value == 1) {
+      //                   Navigator.push(context, MaterialPageRoute(
+      //                     builder: (context) {
+      //                       return const DailozSetting();
+      //                     },
+      //                   ));
+      //                   // if value 2 show dialog
+      //                 } else if (value == 2) {
+      //                   logout();
+      //                 }
+      //               },
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+      //     ),
+      //   ],
+      // ),
+
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
               horizontal: width / 36, vertical: height / 36),
           child: Column(
             children: [
+              SizedBox(
+                height: height / 36,
+              ),
               Container(
                 height: height / 10,
                 width: height / 10,
@@ -205,7 +211,7 @@ class _DailozProfileState extends State<DailozProfile> {
                               height: height / 56,
                             ),
                             Text(
-                              "Personal".tr,
+                              "Office".tr,
                               style: hsMedium.copyWith(
                                   fontSize: 14, color: DailozColor.black),
                             ),
@@ -319,7 +325,7 @@ class _DailozProfileState extends State<DailozProfile> {
                               height: height / 56,
                             ),
                             Text(
-                              "Private".tr,
+                              "Home".tr,
                               style: hsMedium.copyWith(
                                   fontSize: 14, color: DailozColor.black),
                             ),
@@ -452,7 +458,8 @@ class _DailozProfileState extends State<DailozProfile> {
                     splashColor: DailozColor.transparent,
                     highlightColor: DailozColor.transparent,
                     onTap: () {
-                      createBoard();
+                      Get.to(Urgenttasks());
+                      // createBoard();
                     },
                     child: Container(
                       height: height / 4.9,
@@ -483,7 +490,7 @@ class _DailozProfileState extends State<DailozProfile> {
                               height: height / 56,
                             ),
                             Text(
-                              "Create_Board".tr,
+                              "Urgent".tr,
                               style: hsMedium.copyWith(
                                   fontSize: 14, color: DailozColor.black),
                             ),

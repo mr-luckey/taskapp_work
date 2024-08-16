@@ -28,7 +28,7 @@ class _DailozDashboardState extends State<DailozDashboard> {
   PageController pageController = PageController();
   int _selectedItemIndex = 0;
   final themedata = Get.put(DailozThemecontroler());
-  final List<Widget> _pages = const [
+  final List<Widget> _pages = [
     Dailozhome(),
     DailozTask(),
     DailozGraphic(),
@@ -53,7 +53,7 @@ class _DailozDashboardState extends State<DailozDashboard> {
   Widget _bottomTabBar() {
     return Padding(
       padding:
-          EdgeInsets.symmetric(horizontal: width / 30, vertical: height / 36),
+          EdgeInsets.symmetric(horizontal: width / 30, vertical: height / 60),
       child: Container(
         decoration: BoxDecoration(
             color: themedata.isdark ? DailozColor.black : DailozColor.white,

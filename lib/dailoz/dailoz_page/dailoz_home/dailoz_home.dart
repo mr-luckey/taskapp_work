@@ -27,31 +27,15 @@ class _DailozhomeState extends State<Dailozhome> {
   double width = 0.00;
 
   var data = Boxes.getData().values.toList().cast<taskModel>();
+  @override
+  void initState() {
+    setState(() {
+      taskcc.fetchTasks();
+    });
+    // TODO: implement initState
+    super.initState();
+  }
 
-  // var CompletedTasks = Boxes.getData()
-  //     .values
-  //     .toList()
-  //     .cast<taskModel>()
-  //     .where((task) => task.tasktype == 'Completed')
-  //     .toList();
-  // var PendingTasks = Boxes.getData()
-  //     .values
-  //     .toList()
-  //     .cast<taskModel>()
-  //     .where((task) => task.tasktype == 'Pending')
-  //     .toList();
-  // var OngoingTasks = Boxes.getData()
-  //     .values
-  //     .toList()
-  //     .cast<taskModel>()
-  //     .where((task) => task.tasktype == 'On_Going')
-  //     .toList();
-  // var CanceledTasks = Boxes.getData()
-  //     .values
-  //     .toList()
-  //     .cast<taskModel>()
-  //     .where((task) => task.tasktype == 'Canceled')
-  //     .toList();
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
@@ -120,6 +104,10 @@ class _DailozhomeState extends State<Dailozhome> {
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
+                              print(taskcc.completedTasks);
+                              print(taskcc.pendingTasks);
+                              print(taskcc.ongoingTasks);
+                              print(taskcc.cancelTasks);
                               return DailozMyTask("Completed");
                             },
                           ));
@@ -165,16 +153,11 @@ class _DailozhomeState extends State<Dailozhome> {
                                 ),
                                 Obx(
                                   () => Text(
-                                    "${taskcc.completedCount} Task",
+                                    "${taskcc.completedTasks} Task",
                                     style: hsRegular.copyWith(
                                         fontSize: 14, color: DailozColor.black),
                                   ),
                                 )
-                                // Text(
-                                //   "${CompletedTasks.length} Task",
-                                //   style: hsRegular.copyWith(
-                                //       fontSize: 14, color: DailozColor.black),
-                                // ),
                               ],
                             ),
                           ),
@@ -232,11 +215,13 @@ class _DailozhomeState extends State<Dailozhome> {
                                 SizedBox(
                                   height: height / 120,
                                 ),
-                                Text(
-                                  "${taskcc.cancelCount} Task",
-                                  style: hsRegular.copyWith(
-                                      fontSize: 14, color: DailozColor.black),
-                                ),
+                                Obx(() {
+                                  return Text(
+                                    "${taskcc.cancelTasks} Task",
+                                    style: hsRegular.copyWith(
+                                        fontSize: 14, color: DailozColor.black),
+                                  );
+                                })
                               ],
                             ),
                           ),
@@ -296,11 +281,13 @@ class _DailozhomeState extends State<Dailozhome> {
                                 SizedBox(
                                   height: height / 120,
                                 ),
-                                Text(
-                                  "${taskcc.pendingCount} Task",
-                                  style: hsRegular.copyWith(
-                                      fontSize: 14, color: DailozColor.black),
-                                ),
+                                Obx(() {
+                                  return Text(
+                                    "${taskcc.pendingTasks} Task",
+                                    style: hsRegular.copyWith(
+                                        fontSize: 14, color: DailozColor.black),
+                                  );
+                                })
                               ],
                             ),
                           ),
@@ -358,11 +345,13 @@ class _DailozhomeState extends State<Dailozhome> {
                                 SizedBox(
                                   height: height / 120,
                                 ),
-                                Text(
-                                  "${taskcc.ongoingCount} Task",
-                                  style: hsRegular.copyWith(
-                                      fontSize: 14, color: DailozColor.black),
-                                ),
+                                Obx(() {
+                                  return Text(
+                                    taskcc.ongoingTasks.toString() + " Task",
+                                    style: hsRegular.copyWith(
+                                        fontSize: 14, color: DailozColor.black),
+                                  );
+                                }),
                               ],
                             ),
                           ),

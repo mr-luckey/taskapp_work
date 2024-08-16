@@ -118,9 +118,11 @@ class _DailozMyTaskState extends State<DailozMyTask> {
                           return ReusableContainer(
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height,
+                            tags: pendingTasks[index].tags,
                             title: pendingTasks[index].title.toString(),
-                            time: '7:90',
-                            urgency: 'Urgent',
+                            time:
+                                "${pendingTasks[index].starttime.toString()} - ${pendingTasks[index].endtime.toString()}",
+                            // urgency: 'Urgent',
                             location: pendingTasks[index].status.toString(),
                             type: pendingTasks[index].tasktype.toString(),
                             onMenuItemSelected: (value) {
@@ -168,8 +170,9 @@ class _DailozMyTaskState extends State<DailozMyTask> {
                                 width: MediaQuery.of(context).size.width,
                                 height: MediaQuery.of(context).size.height,
                                 title: pendingTasks[index].title.toString(),
-                                time: '7:90',
-                                urgency: 'Urgent',
+                                time:
+                                    "${pendingTasks[index].starttime.toString()} - ${pendingTasks[index].endtime.toString()}",
+                                tags: pendingTasks[index].tags,
                                 location: pendingTasks[index].status.toString(),
                                 type: pendingTasks[index].tasktype.toString(),
                                 onMenuItemSelected: (value) {
@@ -226,8 +229,10 @@ class _DailozMyTaskState extends State<DailozMyTask> {
                                     width: MediaQuery.of(context).size.width,
                                     height: MediaQuery.of(context).size.height,
                                     title: pendingTasks[index].title.toString(),
-                                    time: '7:90',
-                                    urgency: 'Urgent',
+                                    tags: pendingTasks[index].tags,
+                                    time:
+                                        "${pendingTasks[index].starttime.toString()} - ${pendingTasks[index].endtime.toString()}",
+                                    // urgency: 'Urgent',
                                     location:
                                         pendingTasks[index].status.toString(),
                                     type:
@@ -287,8 +292,10 @@ class _DailozMyTaskState extends State<DailozMyTask> {
                                     width: MediaQuery.of(context).size.width,
                                     height: MediaQuery.of(context).size.height,
                                     title: pendingTasks[index].title.toString(),
-                                    time: '7:90',
-                                    urgency: 'Urgent',
+                                    time:
+                                        "${pendingTasks[index].starttime.toString()} - ${pendingTasks[index].endtime.toString()}",
+                                    tags: pendingTasks[index].tags,
+                                    // urgency: 'Urgent',
                                     location:
                                         pendingTasks[index].status.toString(),
                                     type:
