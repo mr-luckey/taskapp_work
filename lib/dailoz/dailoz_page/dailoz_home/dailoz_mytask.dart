@@ -7,6 +7,9 @@ import 'package:taskapp_work/boxes/boxes.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_color.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_fontstyle.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_icons.dart';
+import 'package:taskapp_work/dailoz/dailoz_page/dailoz_home/dailoz_dashboard.dart';
+import 'package:taskapp_work/dailoz/dailoz_page/dailoz_home/dailoz_home.dart';
+import 'package:taskapp_work/dailoz/dailoz_page/dailoz_task/dailoz_taskdetail.dart';
 import 'package:taskapp_work/models/taskModel.dart';
 
 // ignore: must_be_immutable
@@ -62,7 +65,7 @@ class _DailozMyTaskState extends State<DailozMyTask> {
             splashColor: DailozColor.transparent,
             highlightColor: DailozColor.transparent,
             onTap: () {
-              Navigator.pop(context);
+              Get.to(DailozDashboard('1'));
             },
             child: Container(
               height: height / 20,
@@ -115,25 +118,42 @@ class _DailozMyTaskState extends State<DailozMyTask> {
                       children:
                           List<Widget>.generate(pendingTasks.length, (index) {
                         if (index < pendingTasks.length) {
-                          return ReusableContainer(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height,
-                            tags: pendingTasks[index].tags,
-                            title: pendingTasks[index].title.toString(),
-                            time:
-                                "${pendingTasks[index].starttime.toString()} - ${pendingTasks[index].endtime.toString()}",
-                            // urgency: 'Urgent',
-                            location: pendingTasks[index].status.toString(),
-                            type: pendingTasks[index].tasktype.toString(),
-                            onMenuItemSelected: (value) {
-                              if (value == 1) {
-                                var task = pendingTasks[index];
-                                task.tasktype = 'On_Going';
-                                task.save();
-                                print(
-                                    "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
-                              }
+                          return InkWell(
+                            onTap: () {
+                              Get.to(DailozTaskdetail(
+                                  taskType:
+                                      pendingTasks[index].tasktype.toString(),
+                                  endDate:
+                                      pendingTasks[index].enddate.toString(),
+                                  startTime:
+                                      pendingTasks[index].starttime.toString(),
+                                  endTime:
+                                      pendingTasks[index].endtime.toString(),
+                                  taskDescription: pendingTasks[index]
+                                      .description
+                                      .toString(),
+                                  tags: pendingTasks[index].tags));
                             },
+                            child: ReusableContainer(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height,
+                              tags: pendingTasks[index].tags,
+                              title: pendingTasks[index].title.toString(),
+                              time:
+                                  "${pendingTasks[index].starttime.toString()} - ${pendingTasks[index].endtime.toString()}",
+                              // urgency: 'Urgent',
+                              location: pendingTasks[index].status.toString(),
+                              type: pendingTasks[index].tasktype.toString(),
+                              onMenuItemSelected: (value) {
+                                if (value == 1) {
+                                  var task = pendingTasks[index];
+                                  task.tasktype = 'On_Going';
+                                  task.save();
+                                  print(
+                                      "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                                }
+                              },
+                            ),
                           );
                         } else {
                           return const SizedBox.shrink();
@@ -166,34 +186,56 @@ class _DailozMyTaskState extends State<DailozMyTask> {
                           children: List<Widget>.generate(pendingTasks.length,
                               (index) {
                             if (index < pendingTasks.length) {
-                              return ReusableContainer(
-                                width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height,
-                                title: pendingTasks[index].title.toString(),
-                                time:
-                                    "${pendingTasks[index].starttime.toString()} - ${pendingTasks[index].endtime.toString()}",
-                                tags: pendingTasks[index].tags,
-                                location: pendingTasks[index].status.toString(),
-                                type: pendingTasks[index].tasktype.toString(),
-                                onMenuItemSelected: (value) {
-                                  if (value == 1) {
-                                    print(
-                                        "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
-                                    var task = pendingTasks[index];
-                                    print(task);
-                                    task.tasktype = 'On_Going';
-                                    task.save();
-                                    print(
-                                        "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
-                                  }
-                                  // if (value == 1) {
-                                  //   var task = pendingTasks[index];
-                                  //   task.tasktype = 'On_Going';
-                                  //   task.save();
-                                  //   print(
-                                  //       "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
-                                  // }
+                              return InkWell(
+                                onTap: () {
+                                  Get.to(DailozTaskdetail(
+                                      taskType: pendingTasks[index]
+                                          .tasktype
+                                          .toString(),
+                                      endDate: pendingTasks[index]
+                                          .enddate
+                                          .toString(),
+                                      startTime: pendingTasks[index]
+                                          .starttime
+                                          .toString(),
+                                      endTime: pendingTasks[index]
+                                          .endtime
+                                          .toString(),
+                                      taskDescription: pendingTasks[index]
+                                          .description
+                                          .toString(),
+                                      tags: pendingTasks[index].tags));
                                 },
+                                child: ReusableContainer(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: MediaQuery.of(context).size.height,
+                                  title: pendingTasks[index].title.toString(),
+                                  time:
+                                      "${pendingTasks[index].starttime.toString()} - ${pendingTasks[index].endtime.toString()}",
+                                  tags: pendingTasks[index].tags,
+                                  location:
+                                      pendingTasks[index].status.toString(),
+                                  type: pendingTasks[index].tasktype.toString(),
+                                  onMenuItemSelected: (value) {
+                                    if (value == 1) {
+                                      print(
+                                          "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                                      var task = pendingTasks[index];
+                                      print(task);
+                                      task.tasktype = 'On_Going';
+                                      task.save();
+                                      print(
+                                          "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                                    }
+                                    // if (value == 1) {
+                                    //   var task = pendingTasks[index];
+                                    //   task.tasktype = 'On_Going';
+                                    //   task.save();
+                                    //   print(
+                                    //       "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                                    // }
+                                  },
+                                ),
                               );
                             } else {
                               return SizedBox.shrink();
@@ -225,39 +267,63 @@ class _DailozMyTaskState extends State<DailozMyTask> {
                               children: List<Widget>.generate(
                                   pendingTasks.length, (index) {
                                 if (index < pendingTasks.length) {
-                                  return ReusableContainer(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height,
-                                    title: pendingTasks[index].title.toString(),
-                                    tags: pendingTasks[index].tags,
-                                    time:
-                                        "${pendingTasks[index].starttime.toString()} - ${pendingTasks[index].endtime.toString()}",
-                                    // urgency: 'Urgent',
-                                    location:
-                                        pendingTasks[index].status.toString(),
-                                    type:
-                                        pendingTasks[index].tasktype.toString(),
-                                    onMenuItemSelected: (value) {
-                                      if (value == 1) {
-                                        var task = pendingTasks[index];
-                                        task.tasktype = 'Completed';
-                                        task.save();
-                                        print(
-                                            "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
-                                      } else if (value == 2) {
-                                        var task = pendingTasks[index];
-                                        task.tasktype = 'On_Going';
-                                        task.save();
-                                        print(
-                                            "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
-                                      } else if (value == 3) {
-                                        var task = pendingTasks[index];
-                                        task.tasktype = 'Canceled';
-                                        task.save();
-                                        print(
-                                            "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
-                                      }
+                                  return InkWell(
+                                    onTap: () {
+                                      Get.to(DailozTaskdetail(
+                                          taskType: pendingTasks[index]
+                                              .tasktype
+                                              .toString(),
+                                          endDate: pendingTasks[index]
+                                              .enddate
+                                              .toString(),
+                                          startTime: pendingTasks[index]
+                                              .starttime
+                                              .toString(),
+                                          endTime: pendingTasks[index]
+                                              .endtime
+                                              .toString(),
+                                          taskDescription: pendingTasks[index]
+                                              .description
+                                              .toString(),
+                                          tags: pendingTasks[index].tags));
                                     },
+                                    child: ReusableContainer(
+                                      width: MediaQuery.of(context).size.width,
+                                      height:
+                                          MediaQuery.of(context).size.height,
+                                      title:
+                                          pendingTasks[index].title.toString(),
+                                      tags: pendingTasks[index].tags,
+                                      time:
+                                          "${pendingTasks[index].starttime.toString()} - ${pendingTasks[index].endtime.toString()}",
+                                      // urgency: 'Urgent',
+                                      location:
+                                          pendingTasks[index].status.toString(),
+                                      type: pendingTasks[index]
+                                          .tasktype
+                                          .toString(),
+                                      onMenuItemSelected: (value) {
+                                        if (value == 1) {
+                                          var task = pendingTasks[index];
+                                          task.tasktype = 'Completed';
+                                          task.save();
+                                          print(
+                                              "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                                        } else if (value == 2) {
+                                          var task = pendingTasks[index];
+                                          task.tasktype = 'On_Going';
+                                          task.save();
+                                          print(
+                                              "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                                        } else if (value == 3) {
+                                          var task = pendingTasks[index];
+                                          task.tasktype = 'Canceled';
+                                          task.save();
+                                          print(
+                                              "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                                        }
+                                      },
+                                    ),
                                   );
                                 } else {
                                   return SizedBox.shrink();
@@ -288,39 +354,63 @@ class _DailozMyTaskState extends State<DailozMyTask> {
                               children: List<Widget>.generate(
                                   pendingTasks.length, (index) {
                                 if (index < pendingTasks.length) {
-                                  return ReusableContainer(
-                                    width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height,
-                                    title: pendingTasks[index].title.toString(),
-                                    time:
-                                        "${pendingTasks[index].starttime.toString()} - ${pendingTasks[index].endtime.toString()}",
-                                    tags: pendingTasks[index].tags,
-                                    // urgency: 'Urgent',
-                                    location:
-                                        pendingTasks[index].status.toString(),
-                                    type:
-                                        pendingTasks[index].tasktype.toString(),
-                                    onMenuItemSelected: (value) {
-                                      if (value == 1) {
-                                        var task = pendingTasks[index];
-                                        task.tasktype = 'Completed';
-                                        task.save();
-                                        print(
-                                            "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
-                                      } else if (value == 2) {
-                                        var task = pendingTasks[index];
-                                        task.tasktype = 'Pending';
-                                        task.save();
-                                        print(
-                                            "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
-                                      } else if (value == 3) {
-                                        var task = pendingTasks[index];
-                                        task.tasktype = 'Canceled';
-                                        task.save();
-                                        print(
-                                            "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
-                                      }
+                                  return InkWell(
+                                    onTap: () {
+                                      Get.to(DailozTaskdetail(
+                                          taskType: pendingTasks[index]
+                                              .tasktype
+                                              .toString(),
+                                          endDate: pendingTasks[index]
+                                              .enddate
+                                              .toString(),
+                                          startTime: pendingTasks[index]
+                                              .starttime
+                                              .toString(),
+                                          endTime: pendingTasks[index]
+                                              .endtime
+                                              .toString(),
+                                          taskDescription: pendingTasks[index]
+                                              .description
+                                              .toString(),
+                                          tags: pendingTasks[index].tags));
                                     },
+                                    child: ReusableContainer(
+                                      width: MediaQuery.of(context).size.width,
+                                      height:
+                                          MediaQuery.of(context).size.height,
+                                      title:
+                                          pendingTasks[index].title.toString(),
+                                      time:
+                                          "${pendingTasks[index].starttime.toString()} - ${pendingTasks[index].endtime.toString()}",
+                                      tags: pendingTasks[index].tags,
+                                      // urgency: 'Urgent',
+                                      location:
+                                          pendingTasks[index].status.toString(),
+                                      type: pendingTasks[index]
+                                          .tasktype
+                                          .toString(),
+                                      onMenuItemSelected: (value) {
+                                        if (value == 1) {
+                                          var task = pendingTasks[index];
+                                          task.tasktype = 'Completed';
+                                          task.save();
+                                          print(
+                                              "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                                        } else if (value == 2) {
+                                          var task = pendingTasks[index];
+                                          task.tasktype = 'Pending';
+                                          task.save();
+                                          print(
+                                              "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                                        } else if (value == 3) {
+                                          var task = pendingTasks[index];
+                                          task.tasktype = 'Canceled';
+                                          task.save();
+                                          print(
+                                              "woking fine and go "); //TODO: go to database tasktype update in pending case ongoing can mark completed on going can mark
+                                        }
+                                      },
+                                    ),
                                   );
                                 } else {
                                   return SizedBox.shrink();

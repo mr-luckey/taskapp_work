@@ -81,5 +81,6 @@ class TaskController extends GetxController {
         .where((task) => task.tasktype == 'Canceled')
         .toList()
         .length;
+    update();
   }
 }

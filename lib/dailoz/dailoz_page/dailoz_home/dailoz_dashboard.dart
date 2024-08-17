@@ -53,7 +53,7 @@ class _DailozDashboardState extends State<DailozDashboard> {
   Widget _bottomTabBar() {
     return Padding(
       padding:
-          EdgeInsets.symmetric(horizontal: width / 30, vertical: height / 60),
+          EdgeInsets.symmetric(horizontal: width / 30, vertical: height / 70),
       child: Container(
         decoration: BoxDecoration(
             color: themedata.isdark ? DailozColor.black : DailozColor.white,
@@ -142,6 +142,7 @@ class _DailozDashboardState extends State<DailozDashboard> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Get.to(DailozAddTask(
+              check: 2,
               headtitle: "New",
             ));
 

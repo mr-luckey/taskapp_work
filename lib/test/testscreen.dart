@@ -1,55 +1,70 @@
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:taskapp_work/Controllers/task_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-// class HourlyTasksScreen extends StatelessWidget {
+void main() {
+  runApp(MyApp());
+}
 
- 
-//   final DailozTaskController controller = Get.put(DailozTaskController());
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Hourly Tasks'),
-//       ),
-//       body: ListView.builder(
-//         itemCount: controller.tasksForToday.length,
-//         itemBuilder: (context, index) {
-//           final task = controller.tasksForToday[index];
-//           int hour = task.key.elementAt(index);
-//           String hourLabel = '${hour.toString().padLeft(2, '0')}:00';
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: NotificationDemo(),
+    );
+  }
+}
 
-//           return Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Padding(
-//                 padding: const EdgeInsets.all(8.0),
-//                 child: Text(
-//                   hourLabel,
-//                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//                 ),
-//               ),
-//               Container(
-//                 height: 100, // Set a fixed height for the horizontal list
-//                 child: ListView.builder(
-//                   scrollDirection: Axis.horizontal,
-//                   // itemCount: task?.length ?? 0,
-//                   itemBuilder: (context, taskIndex) {
-//                     return Card(
-//                       margin: EdgeInsets.all(8.0),
-//                       child: Container(
-//                         width: 100,
-//                         alignment: Alignment.center,
-//                         child: Text(task[]![taskIndex]),
-//                       ),
-//                     );
-//                   },
-//                 ),
-//               ),
-//             ],
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }
+class NotificationDemo extends StatefulWidget {
+  @override
+  _NotificationDemoState createState() => _NotificationDemoState();
+}
+
+class _NotificationDemoState extends State<NotificationDemo> {
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
+  @override
+  void initState() {
+    super.initState();
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('app_icon');
+    final InitializationSettings initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  }
+
+  Future<void> _showNotification() async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'your channel id',
+      'your channel name',
+      importance: Importance.max,
+      priority: Priority.high,
+      showWhen: false,
+    );
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Dummy Title',
+      'This is a dummy notification body',
+      platformChannelSpecifics,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Notification Demo'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: _showNotification,
+          child: Text('Show Notification'),
+        ),
+      ),
+    );
+  }
+}

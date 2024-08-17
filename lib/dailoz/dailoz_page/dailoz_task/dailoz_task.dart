@@ -7,8 +7,8 @@ import 'package:taskapp_work/Widgets/square_Card.dart';
 import 'package:taskapp_work/Widgets/tile_card.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_color.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_fontstyle.dart';
+import 'package:taskapp_work/dailoz/dailoz_page/dailoz_task/dailoz_taskdetail.dart';
 
-// import 'dailoz_task_controller.dart';
 class DailozTask extends StatefulWidget {
   @override
   State<DailozTask> createState() => _DailozTaskState();
@@ -16,6 +16,18 @@ class DailozTask extends StatefulWidget {
 
 class _DailozTaskState extends State<DailozTask> {
   final DailozTaskController controller = Get.put(DailozTaskController());
+  TextEditingController searchController = TextEditingController();
+  String searchQuery = '';
+
+  @override
+  void initState() {
+    super.initState();
+    searchController.addListener(() {
+      setState(() {
+        searchQuery = searchController.text.toLowerCase();
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +44,7 @@ class _DailozTaskState extends State<DailozTask> {
             children: [
               SizedBox(height: height / 36),
               TextFormField(
+                controller: searchController,
                 cursorColor: DailozColor.black,
                 style: hsMedium.copyWith(
                     fontSize: 16, color: DailozColor.textgray),
@@ -41,19 +54,18 @@ class _DailozTaskState extends State<DailozTask> {
                   fillColor: DailozColor.bggray,
                   prefixIcon: const Icon(Icons.search,
                       size: 22, color: DailozColor.grey),
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.all(14),
-                    child: Container(
-                      height: height / 96,
-                      width: height / 96,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: DailozColor.purple,
-                      ),
-                      child: const Icon(Icons.close,
-                          size: 12, color: DailozColor.white),
-                    ),
-                  ),
+                  suffixIcon: searchController.text.isNotEmpty
+                      ? IconButton(
+                          icon: const Icon(Icons.close,
+                              size: 22, color: DailozColor.grey),
+                          onPressed: () {
+                            searchController.clear();
+                            setState(() {
+                              searchQuery = '';
+                            });
+                          },
+                        )
+                      : null,
                   hintStyle: hsMedium.copyWith(
                       fontSize: 16, color: DailozColor.textgray),
                   border: OutlineInputBorder(
@@ -82,17 +94,19 @@ class _DailozTaskState extends State<DailozTask> {
               ),
               SizedBox(height: height / 26),
               ListView.builder(
-                shrinkWrap: true, // Add shrinkWrap to ListView.builder
-                physics:
-                    NeverScrollableScrollPhysics(), // Disable scrolling for the nested ListView
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 itemCount: 24,
                 itemBuilder: (context, hour) {
                   final tasksForHour = controller.tasksForToday.where((task) {
                     final taskHour = int.parse(task.starttime!.split(':')[0]);
-                    return taskHour == hour && task.tasktype == 'Pending';
+                    final matchesSearchQuery =
+                        task.title!.toLowerCase().contains(searchQuery);
+                    return taskHour == hour &&
+                        task.tasktype == 'Pending' &&
+                        matchesSearchQuery;
                   }).toList();
 
-                  // print(tasksForHour.toList().first.description)
                   if (tasksForHour.isEmpty) {
                     return SizedBox.shrink();
                   } else {
@@ -116,22 +130,34 @@ class _DailozTaskState extends State<DailozTask> {
                                 child: Padding(
                                   padding:
                                       const EdgeInsets.only(top: 20, left: 5),
-                                  child: ReusableContainer(
-                                    width: 300,
-                                    height: 200,
-                                    tags: task.tags,
-                                    title: task.title.toString(),
-                                    time: '${task.starttime} - ${task.endtime}',
-                                    // urgency: 'Urgent',
-                                    location: task.status.toString(),
-                                    type: task.tasktype.toString(),
-                                    onMenuItemSelected: (value) {
-                                      if (value == 1) {
-                                        task.tasktype = 'On_Going';
-                                        task.save();
-                                        print("working fine and go");
-                                      }
+                                  child: InkWell(
+                                    onTap: () {
+                                      Get.to(DailozTaskdetail(
+                                          taskType: task.tasktype.toString(),
+                                          endDate: task.enddate.toString(),
+                                          startTime: task.starttime.toString(),
+                                          endTime: task.endtime.toString(),
+                                          taskDescription:
+                                              task.description.toString(),
+                                          tags: task.tags));
                                     },
+                                    child: ReusableContainer(
+                                      width: 300,
+                                      height: 200,
+                                      tags: task.tags,
+                                      title: task.title.toString(),
+                                      time:
+                                          '${task.starttime} - ${task.endtime}',
+                                      location: task.status.toString(),
+                                      type: task.tasktype.toString(),
+                                      onMenuItemSelected: (value) {
+                                        if (value == 1) {
+                                          task.tasktype = 'On_Going';
+                                          task.save();
+                                          print("working fine and go");
+                                        }
+                                      },
+                                    ),
                                   ),
                                 ),
                               );
@@ -150,6 +176,173 @@ class _DailozTaskState extends State<DailozTask> {
     );
   }
 }
+
+// import 'package:easy_date_timeline/easy_date_timeline.dart';
+// import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
+// import 'package:taskapp_work/Controllers/task_controller.dart';
+// import 'package:taskapp_work/Widgets/square_Card.dart';
+// // import 'package:taskapp_work/Widgets/task_card.dart';
+// import 'package:taskapp_work/Widgets/tile_card.dart';
+// import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_color.dart';
+// import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_fontstyle.dart';
+// import 'package:taskapp_work/dailoz/dailoz_page/dailoz_task/dailoz_taskdetail.dart';
+
+// // import 'dailoz_task_controller.dart';
+// class DailozTask extends StatefulWidget {
+//   @override
+//   State<DailozTask> createState() => _DailozTaskState();
+// }
+
+// class _DailozTaskState extends State<DailozTask> {
+//   final DailozTaskController controller = Get.put(DailozTaskController());
+
+//   @override
+//   Widget build(BuildContext context) {
+//     var size = MediaQuery.of(context).size;
+//     var height = size.height;
+//     var width = size.width;
+
+//     return Scaffold(
+//       body: SingleChildScrollView(
+//         child: Padding(
+//           padding: EdgeInsets.symmetric(
+//               horizontal: width / 36, vertical: height / 36),
+//           child: Column(
+//             children: [
+//               SizedBox(height: height / 36),
+//               TextFormField(
+//                 cursorColor: DailozColor.black,
+//                 style: hsMedium.copyWith(
+//                     fontSize: 16, color: DailozColor.textgray),
+//                 decoration: InputDecoration(
+//                   hintText: 'Search for task'.tr,
+//                   filled: true,
+//                   fillColor: DailozColor.bggray,
+//                   prefixIcon: const Icon(Icons.search,
+//                       size: 22, color: DailozColor.grey),
+//                   suffixIcon: Padding(
+//                     padding: const EdgeInsets.all(14),
+//                     child: Container(
+//                       height: height / 96,
+//                       width: height / 96,
+//                       decoration: BoxDecoration(
+//                         borderRadius: BorderRadius.circular(5),
+//                         color: DailozColor.purple,
+//                       ),
+//                       child: const Icon(Icons.close,
+//                           size: 12, color: DailozColor.white),
+//                     ),
+//                   ),
+//                   hintStyle: hsMedium.copyWith(
+//                       fontSize: 16, color: DailozColor.textgray),
+//                   border: OutlineInputBorder(
+//                     borderRadius: BorderRadius.circular(15),
+//                     borderSide: BorderSide.none,
+//                   ),
+//                   focusedBorder: OutlineInputBorder(
+//                     borderRadius: BorderRadius.circular(15),
+//                     borderSide: BorderSide.none,
+//                   ),
+//                 ),
+//               ),
+//               SizedBox(height: height / 26),
+//               EasyDateTimeLine(
+//                 initialDate: DateTime.now(),
+//                 onDateChange: (selectedDate) {
+//                   setState(() {});
+//                   controller.updateSelectedDate(selectedDate);
+//                 },
+//                 activeColor: DailozColor.appcolor,
+//                 dayProps: const EasyDayProps(
+//                   height: 70,
+//                   todayHighlightStyle: TodayHighlightStyle.withBackground,
+//                   todayHighlightColor: Colors.transparent,
+//                 ),
+//               ),
+//               SizedBox(height: height / 26),
+//               ListView.builder(
+//                 shrinkWrap: true, // Add shrinkWrap to ListView.builder
+//                 physics:
+//                     NeverScrollableScrollPhysics(), // Disable scrolling for the nested ListView
+//                 itemCount: 24,
+//                 itemBuilder: (context, hour) {
+//                   final tasksForHour = controller.tasksForToday.where((task) {
+//                     final taskHour = int.parse(task.starttime!.split(':')[0]);
+//                     return taskHour == hour && task.tasktype == 'Pending';
+//                   }).toList();
+
+//                   // print(tasksForHour.toList().first.description)
+//                   if (tasksForHour.isEmpty) {
+//                     return SizedBox.shrink();
+//                   } else {
+//                     return Column(
+//                       crossAxisAlignment: CrossAxisAlignment.start,
+//                       children: [
+//                         Text('$hour:00',
+//                             style: TextStyle(
+//                                 fontSize: 18, fontWeight: FontWeight.bold)),
+//                         SizedBox(
+//                           height: 150,
+//                           child: ListView.builder(
+//                             scrollDirection: Axis.horizontal,
+//                             itemCount: tasksForHour.length,
+//                             itemBuilder: (context, index) {
+//                               final task = tasksForHour[index];
+//                               return InkWell(
+//                                 splashColor: Colors.transparent,
+//                                 highlightColor: Colors.transparent,
+//                                 onTap: () {},
+//                                 child: Padding(
+//                                   padding:
+//                                       const EdgeInsets.only(top: 20, left: 5),
+//                                   child: InkWell(
+//                                     onTap: () {
+//                                       Get.to(DailozTaskdetail(
+//                                           taskType: task.tasktype.toString(),
+//                                           endDate: task.enddate.toString(),
+//                                           startTime: task.starttime.toString(),
+//                                           endTime: task.endtime.toString(),
+//                                           taskDescription:
+//                                               task.description.toString(),
+//                                           tags: task.tags));
+//                                     },
+//                                     child: ReusableContainer(
+//                                       width: 300,
+//                                       height: 200,
+//                                       tags: task.tags,
+//                                       title: task.title.toString(),
+//                                       time:
+//                                           '${task.starttime} - ${task.endtime}',
+//                                       // urgency: 'Urgent',
+//                                       location: task.status.toString(),
+//                                       type: task.tasktype.toString(),
+//                                       onMenuItemSelected: (value) {
+//                                         if (value == 1) {
+//                                           task.tasktype = 'On_Going';
+//                                           task.save();
+//                                           print("working fine and go");
+//                                         }
+//                                       },
+//                                     ),
+//                                   ),
+//                                 ),
+//                               );
+//                             },
+//                           ),
+//                         ),
+//                       ],
+//                     );
+//                   }
+//                 },
+//               )
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 // class DailozTask extends StatelessWidget {
 //   final DailozTaskController controller = Get.put(DailozTaskController());
 

@@ -247,7 +247,13 @@ class _DailozEventState extends State<DailozEvent> {
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
-                              return const DailozTaskdetail();
+                              return DailozTaskdetail(
+                                  taskType: task.tasktype.toString(),
+                                  endDate: task.enddate.toString(),
+                                  startTime: task.starttime.toString(),
+                                  endTime: task.endtime.toString(),
+                                  taskDescription: task.description.toString(),
+                                  tags: task.tags);
                             },
                           ));
                         },
@@ -412,6 +418,7 @@ class _DailozEventState extends State<DailozEvent> {
         backgroundColor: DailozColor.appcolor,
         onPressed: () {
           Get.to(DailozAddTask(
+            check: 1,
             headtitle: "Event",
           ));
         },

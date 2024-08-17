@@ -6,12 +6,15 @@ import 'package:taskapp_work/Controllers/addtaskController.dart';
 import 'package:taskapp_work/boxes/boxes.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_color.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_fontstyle.dart';
+import 'package:taskapp_work/dailoz/dailoz_page/dailoz_home/dailoz_dashboard.dart';
 import 'package:taskapp_work/models/taskModel.dart';
 import '../../dailoz_theme/dailoz_themecontroller.dart';
 
 class DailozAddTask extends StatefulWidget {
-  DailozAddTask({Key? key, required this.headtitle}) : super(key: key);
+  DailozAddTask({Key? key, required this.headtitle, required this.check})
+      : super(key: key);
   String headtitle;
+  int check;
   @override
   State<DailozAddTask> createState() => _DailozAddTaskState();
 }
@@ -414,56 +417,13 @@ class _DailozAddTaskState extends State<DailozAddTask> {
               SizedBox(
                 height: height / 36,
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     InkWell(
-              //         splashColor: DailozColor.transparent,
-              //         highlightColor: DailozColor.transparent,
-              //         onTap: () {
-              //           newtag();
-              //         },
-              //         child: Text(
-              //           "+ Add new tag".tr,
-              //           style: hsMedium.copyWith(
-              //               fontSize: 14, color: DailozColor.textappcolor),
-              //         )),
-              //   ],
-              // ),
-              //FIXME: Add Tag Functionality will be applied left.
+
               SizedBox(
                 height: height / 26,
               ),
               InkWell(
                 splashColor: DailozColor.transparent,
                 highlightColor: const Color.fromRGBO(0, 0, 0, 0),
-
-                //TODO: Functiojnality left btn on create
-                // onTap: () {
-                //   print("Title: ${title.text}");
-                //   print("Description: ${description.text}");
-                //   print(
-                //       "Status: ${type[checkBoxController.selectedCheckBox.value]}");
-                //   print("Tags: ${tagController.selectedTag.value}");
-                //   print("Start Date: ${DateTimeController}");
-                //   // print("End Date: ${DateTime.now()}");
-                //   print(
-                //       "ID: ${title.text} ${_startdatetimeController.toString()}");
-
-                //   var data = taskModel(
-                //       tasktype: "Canceled",
-                //       title: title.text,
-                //       description: description.text,
-                //       status: type[checkBoxController.selectedCheckBox.value],
-                //       tags: tagController.selectedTag.value,
-                //       // worktype: "Personal",
-                //       ID: '${title.text} ${_startdatetimeController.toString()}',
-                //       startdatetime: _startdatetimeController.toString(),
-                //       enddatetime: _enddatetimeController.toString());
-                //   final box = Boxes.getData();
-                //   box.add(data);
-                //   data.save();
-                // },
                 onTap: () {
                   // Check if all text fields are filled
                   if (title.text.isEmpty ||
@@ -528,40 +488,12 @@ class _DailozAddTaskState extends State<DailozAddTask> {
                     colorText: Colors.white,
                   );
 
-                  Navigator.pop(
-                      context); // Optionally, close the screen after saving
+                  if (widget.check == 1) {
+                    Navigator.pop(context);
+                  } else if (widget.check == 2) {
+                    Get.to(DailozDashboard('1'));
+                  } // Optionally, close the screen after saving
                 },
-
-                // onTap: () {
-
-                //   print("Title: ${title.text}");
-                //   print("Description: ${description.text}");
-                //   print(
-                //       "Status: ${type[checkBoxController.selectedCheckBox.value]}");
-                //   print("Tags: ${tagController.selectedTags.join(', ')}");
-                //   print("Start Date: ${startdatetimeController.text}");
-                //   print("End Date: ${enddatetimeController.text}");
-                //   print("ID: ${title.text} ${startdatetimeController.text}");
-
-                //   var data = taskModel(
-                //     tasktype: "Pending",
-                //     title: title.text,
-                //     description: description.text,
-                //     status: type[checkBoxController.selectedCheckBox.value],
-                //     tags: tagController
-                //         .selectedTags, // Storing tags as a comma-separated string
-                //     ID: '${title.text} ${startdatetimeController.text}',
-                //     starttime: startdatetimeController.text,
-                //     endtime: enddatetimeController.text,
-                //     startdate: selectedstartdate,
-                //     enddate: selectededdate,
-                //   );
-
-                //   final box = Boxes.getData();
-                //   box.add(data);
-                //   data.save();
-                // },
-
                 child: Container(
                   width: width / 1,
                   height: height / 15,

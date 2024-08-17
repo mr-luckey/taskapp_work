@@ -4,6 +4,7 @@ import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_color.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_fontstyle.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_icons.dart';
 import 'package:taskapp_work/dailoz/dailoz_page/dailoz_profile/Urgenttasks.dart';
+import 'package:taskapp_work/functions/length.dart';
 import '../../dailoz_theme/dailoz_themecontroller.dart';
 import 'dailoz_event.dart';
 import 'dailoz_meeting.dart';
@@ -26,6 +27,36 @@ class _DailozProfileState extends State<DailozProfile> {
   int isselected = 0;
   final themedata = Get.put(DailozThemecontroler());
   List type = ["Personal", "Private", "Secret"];
+  int eventCount = getEventTasksCount(tasks);
+  int homeCount = getHomeTasksCount(tasks);
+  int meetingCount = getMeetingTasksCount(tasks);
+  int officeCount = getOfficeTasksCount(tasks);
+  int workCount = getWorkTasksCount(tasks);
+  int urgentCount = getUrgentTasksCount(tasks);
+  bool isDependencyChanged = true;
+  @override
+  void didChangeDependencies() async {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    if (isDependencyChanged) {
+      print("Testing Didchange");
+      isDependencyChanged = false;
+    }
+  }
+
+  // @override
+  // void initState() {
+  //   setState(() {
+  //     //      int eventCount = getEventTasksCount(tasks);
+  //     // int homeCount = getHomeTasksCount(tasks);
+  //     // int meetingCount = getMeetingTasksCount(tasks);
+  //     // int officeCount = getOfficeTasksCount(tasks);
+  //     // int workCount = getWorkTasksCount(tasks);
+  //     // int urgentCount = getUrgentTasksCount(tasks);
+  //   });
+  //   // TODO: implement initState
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -216,7 +247,7 @@ class _DailozProfileState extends State<DailozProfile> {
                                   fontSize: 14, color: DailozColor.black),
                             ),
                             Text(
-                              "6 Task",
+                              "$officeCount Task",
                               style: hsMedium.copyWith(
                                   fontSize: 14, color: DailozColor.black),
                             ),
@@ -270,7 +301,7 @@ class _DailozProfileState extends State<DailozProfile> {
                                   fontSize: 14, color: DailozColor.black),
                             ),
                             Text(
-                              "8 Task",
+                              "$workCount Task",
                               style: hsMedium.copyWith(
                                   fontSize: 14, color: DailozColor.black),
                             ),
@@ -330,7 +361,7 @@ class _DailozProfileState extends State<DailozProfile> {
                                   fontSize: 14, color: DailozColor.black),
                             ),
                             Text(
-                              "3 Task",
+                              "$homeCount Task",
                               style: hsMedium.copyWith(
                                   fontSize: 14, color: DailozColor.black),
                             ),
@@ -385,7 +416,7 @@ class _DailozProfileState extends State<DailozProfile> {
                                   fontSize: 14, color: DailozColor.black),
                             ),
                             Text(
-                              "4 Task",
+                              "$meetingCount Task",
                               style: hsMedium.copyWith(
                                   fontSize: 14, color: DailozColor.black),
                             ),
@@ -444,7 +475,7 @@ class _DailozProfileState extends State<DailozProfile> {
                                   fontSize: 14, color: DailozColor.black),
                             ),
                             Text(
-                              "4 Task",
+                              "$eventCount Task",
                               style: hsMedium.copyWith(
                                   fontSize: 14, color: DailozColor.black),
                             ),
@@ -495,7 +526,7 @@ class _DailozProfileState extends State<DailozProfile> {
                                   fontSize: 14, color: DailozColor.black),
                             ),
                             Text(
-                              "6 Task",
+                              "$urgentCount Task",
                               style: hsMedium.copyWith(
                                   fontSize: 14, color: DailozColor.black),
                             ),
