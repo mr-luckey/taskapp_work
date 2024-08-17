@@ -6,6 +6,7 @@ import 'package:taskapp_work/boxes/boxes.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_color.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_fontstyle.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_icons.dart';
+import 'package:taskapp_work/dailoz/dailoz_page/dailoz_task/dailoz_addtask.dart';
 import 'package:taskapp_work/models/taskModel.dart';
 import '../dailoz_task/dailoz_taskdetail.dart';
 import 'dailoz_addpersonal.dart';
@@ -286,10 +287,8 @@ class _DailozMeetingState extends State<DailozMeeting> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: DailozColor.appcolor,
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) {
-              return DailozAddPersonal("metting");
-            },
+          Get.to(DailozAddTask(
+            headtitle: "Meeting",
           ));
         },
         child: const Icon(
@@ -298,6 +297,21 @@ class _DailozMeetingState extends State<DailozMeeting> {
           color: DailozColor.white,
         ),
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: DailozColor.appcolor,
+      //   onPressed: () {
+      //     Navigator.push(context, MaterialPageRoute(
+      //       builder: (context) {
+      //         return DailozAddPersonal("metting");
+      //       },
+      //     ));
+      //   },
+      //   child: const Icon(
+      //     Icons.add,
+      //     size: 22,
+      //     color: DailozColor.white,
+      //   ),
+      // ),
     );
   }
 }

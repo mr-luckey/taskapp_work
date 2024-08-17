@@ -141,17 +141,18 @@ class _DailozDashboardState extends State<DailozDashboard> {
       return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Get.to(DailozAddTask());
+            Get.to(DailozAddTask(
+              headtitle: "New",
+            ));
 
-            // Navigator.push(context, MaterialPageRoute(
-            //                 builder: (context) {
-            //                   return const DailozAddTask();
-            //                 },
-            //               ));
             pageController.jumpToPage(2);
           },
-          child: const Icon(Icons.add),
-          backgroundColor: DailozColor.bgpurple,
+          child: const Icon(
+            Icons.add,
+            size: 22,
+            color: DailozColor.white,
+          ),
+          backgroundColor: DailozColor.appcolor,
         ),
         bottomNavigationBar: _bottomTabBar(),
         body: _pages[_selectedItemIndex],

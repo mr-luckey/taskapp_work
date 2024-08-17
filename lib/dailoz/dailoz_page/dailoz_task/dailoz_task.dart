@@ -89,7 +89,7 @@ class _DailozTaskState extends State<DailozTask> {
                 itemBuilder: (context, hour) {
                   final tasksForHour = controller.tasksForToday.where((task) {
                     final taskHour = int.parse(task.starttime!.split(':')[0]);
-                    return taskHour == hour;
+                    return taskHour == hour && task.tasktype == 'Pending';
                   }).toList();
 
                   // print(tasksForHour.toList().first.description)

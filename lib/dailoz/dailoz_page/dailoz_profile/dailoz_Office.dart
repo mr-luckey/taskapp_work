@@ -7,6 +7,7 @@ import 'package:taskapp_work/boxes/boxes.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_color.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_fontstyle.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_icons.dart';
+import 'package:taskapp_work/dailoz/dailoz_page/dailoz_task/dailoz_addtask.dart';
 import 'package:taskapp_work/models/taskModel.dart';
 
 import '../dailoz_task/dailoz_taskdetail.dart';
@@ -288,10 +289,8 @@ class _DailozPersonalState extends State<DailozPersonal> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: DailozColor.appcolor,
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) {
-              return DailozAddPersonal("personal");
-            },
+          Get.to(DailozAddTask(
+            headtitle: "Office",
           ));
         },
         child: const Icon(
@@ -300,6 +299,21 @@ class _DailozPersonalState extends State<DailozPersonal> {
           color: DailozColor.white,
         ),
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: DailozColor.appcolor,
+      //   onPressed: () {
+      //     Navigator.push(context, MaterialPageRoute(
+      //       builder: (context) {
+      //         return DailozAddPersonal("personal");
+      //       },
+      //     ));
+      //   },
+      //   child: const Icon(
+      //     Icons.add,
+      //     size: 22,
+      //     color: DailozColor.white,
+      //   ),
+      // ),
     );
   }
 }

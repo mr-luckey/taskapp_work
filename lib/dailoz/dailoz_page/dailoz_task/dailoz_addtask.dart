@@ -10,8 +10,8 @@ import 'package:taskapp_work/models/taskModel.dart';
 import '../../dailoz_theme/dailoz_themecontroller.dart';
 
 class DailozAddTask extends StatefulWidget {
-  const DailozAddTask({Key? key}) : super(key: key);
-
+  DailozAddTask({Key? key, required this.headtitle}) : super(key: key);
+  String headtitle;
   @override
   State<DailozAddTask> createState() => _DailozAddTaskState();
 }
@@ -169,7 +169,7 @@ class _DailozAddTaskState extends State<DailozAddTask> {
           ),
         ),
         title: Text(
-          "Add_Task".tr,
+          "Add ${widget.headtitle} Task".tr,
           style: hsSemiBold.copyWith(fontSize: 18),
         ),
       ),
