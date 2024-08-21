@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-
-const TextStyle hsBold = TextStyle(
-  fontFamily: "HindSiliguriBold",
+TextStyle hsBold = TextStyle(
+  fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.bold).fontFamily,
 );
-const TextStyle hsLight = TextStyle(
-  fontFamily: "HindSiliguriLight",
+TextStyle hsLight = TextStyle(
+  fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.w100).fontFamily,
 );
-const TextStyle hsMedium = TextStyle(
-  fontFamily: "HindSiliguriMedium",
+TextStyle hsMedium = TextStyle(
+  fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.normal).fontFamily,
 );
-const TextStyle hsRegular = TextStyle(
-  fontFamily: "HindSiliguriRegular",
+TextStyle hsRegular = TextStyle(
+  fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.normal).fontFamily,
 );
-const TextStyle hsSemiBold = TextStyle(
-  fontFamily: "HindSiliguriSemiBold",
+TextStyle hsSemiBold = TextStyle(
+  fontFamily: GoogleFonts.poppins(fontWeight: FontWeight.w500).fontFamily,
 );

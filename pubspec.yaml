@@ -52,6 +52,8 @@ dependencies:
   flutter_local_notifications: ^17.2.2
   flutter_background_service_platform_interface: ^5.1.1
   workmanager: ^0.5.2
+  timezone: ^0.9.4
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:

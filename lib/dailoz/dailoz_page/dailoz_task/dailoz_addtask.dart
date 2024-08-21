@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:taskapp_work/Controllers/addtaskController.dart';
+import 'package:taskapp_work/Controllers/task_controller.dart';
+import 'package:taskapp_work/Notifction/advance_notification/notification_Controller.dart';
+import 'package:taskapp_work/Notifction/notification_Controller.dart';
 import 'package:taskapp_work/boxes/boxes.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_color.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_fontstyle.dart';
@@ -31,6 +35,7 @@ class _DailozAddTaskState extends State<DailozAddTask> {
   DateTime? _selectedDay;
   String? selectdate;
   final themedata = Get.put(DailozThemecontroler());
+  DateTime startTime = DateTime.now();
   List type = ["Personal", "Private", "Secret"];
 
   List tag = ["Office", "Home", "Urgent", "Work", "Event", "Meeting"];
@@ -59,10 +64,16 @@ class _DailozAddTaskState extends State<DailozAddTask> {
   TextEditingController description = TextEditingController();
   String selectedstartdate = '';
   String selectededdate = '';
-  DateTime? _pickedDate;
-  TimeOfDay? _pickedTime;
+  // DateTime? _pickedDate;
+  // TimeOfDay? _pickedTime;
 
   final TagController tagController = Get.put(TagController());
+  final TasktimeController tasktimeController = Get.put(TasktimeController());
+  // final AdvanceTasktimeController _advanceTasktimeController =
+  //     Get.put(AdvanceTasktimeController());
+
+  // final starttime starttimeController = Get.put(starttime());
+
   Future<void> _selectstartDate(
     BuildContext context,
   ) async {
@@ -80,9 +91,17 @@ class _DailozAddTaskState extends State<DailozAddTask> {
       );
 
       if (pickedTime != null) {
+        startTime = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
         setState(() {
-          _pickedDate = pickedDate; // Save picked date to a variable
-          _pickedTime = pickedTime; // Save picked time to a variable
+          // _pickedDate = pickedDate; // Save picked date to a variable
+          // _pickedTime = pickedTime;
+          // Save picked time to a variable
           print(pickedTime);
           print(pickedDate.toLocal().toString().split(' ')[0]);
           selectedstartdate = pickedDate.toLocal().toString().split(' ')[0];
@@ -90,6 +109,7 @@ class _DailozAddTaskState extends State<DailozAddTask> {
           //TODO: model variable creation and then save start date in it
           // Format the picked time to a readable string
           print(selectedstartdate);
+          // starttimeController.addStartTime(startTime);
           final String formattedTime = pickedTime.format(context);
           startdatetimeController.text = formattedTime;
         });
@@ -123,8 +143,8 @@ class _DailozAddTaskState extends State<DailozAddTask> {
         );
 
         setState(() {
-          _pickedDate = pickedDate; // Save picked date to a variable
-          _pickedTime = pickedTime; // Save picked time to a variable
+          // _pickedDate = pickedDate; // Save picked date to a variable
+          // _pickedTime = pickedTime; // Save picked time to a variable
           print(pickedTime);
           selectededdate = pickedDate.toLocal().toString().split(' ')[0];
 //TODO: model enddate creation and set data
@@ -475,11 +495,14 @@ class _DailozAddTaskState extends State<DailozAddTask> {
                     startdate: selectedstartdate,
                     enddate: selectededdate,
                   );
-
+                  // starttimeController.addStartTime(selectedstartdate);
+                  // startdatetimeController.
                   final box = Boxes.getData();
                   box.add(data);
                   data.save();
-
+                  // _advanceTasktimeController.addTask(
+                  //     startTime.subtract(Duration(minutes: 2)), title.text);
+                  tasktimeController.addTask(startTime, title.text);
                   Get.snackbar(
                     "Success",
                     "Task created successfully!",

@@ -551,11 +551,11 @@ class ReusableContainer extends StatelessWidget {
             height: height / 36,
           ),
           SizedBox(
-            width: width / 36,
+            width: width / 40,
           ),
           Text(
             text,
-            style: hsRegular.copyWith(fontSize: 16, color: DailozColor.black),
+            style: hsRegular.copyWith(fontSize: 14, color: DailozColor.black),
           ),
         ],
       ),
