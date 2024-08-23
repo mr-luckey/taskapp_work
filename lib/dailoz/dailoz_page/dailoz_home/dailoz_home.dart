@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taskapp_work/Controllers/task_controller.dart';
 import 'package:taskapp_work/Widgets/cuntom%20cardprofile.dart';
 import 'package:taskapp_work/Widgets/tile_card.dart';
@@ -9,7 +10,9 @@ import 'package:taskapp_work/boxes/boxes.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_color.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_fontstyle.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_icons.dart';
+import 'package:taskapp_work/dailoz/dailoz_page/dailoz_home/dailoz_dashboard.dart';
 import 'package:taskapp_work/dailoz/dailoz_page/dailoz_task/Edittask.dart';
+import 'package:taskapp_work/dailoz/dailoz_page/dailoz_task/dailoz_task.dart';
 
 import '../../../models/taskModel.dart';
 import '../dailoz_task/dailoz_taskdetail.dart';
@@ -29,6 +32,7 @@ class _DailozhomeState extends State<Dailozhome> {
   double width = 0.00;
 
   var data = Boxes.getData().values.toList().cast<taskModel>();
+  ValueNotifier<String> userNameNotifier = ValueNotifier<String>('User');
   // @override
   // void didchangeDependencies() {
   //   print("didchange");
@@ -42,9 +46,18 @@ class _DailozhomeState extends State<Dailozhome> {
   //   setState(() {});
   //   super.didChangeDependencies();
   // }
+  Future<void> _loadUserName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userName = prefs.getString('userName');
+    if (userName != null && userName.isNotEmpty) {
+      userNameNotifier.value = userName;
+    }
+  }
+
   @override
   void initState() {
     taskcc.fetchTasks();
+    _loadUserName();
     setState(() {
       print("didchange");
       print(
@@ -81,9 +94,15 @@ class _DailozhomeState extends State<Dailozhome> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Hi, Steven".tr,
-                        style: hsSemiBold.copyWith(fontSize: 26),
+                      ValueListenableBuilder<String>(
+                        valueListenable: userNameNotifier,
+                        builder: (context, value, child) {
+                          return Text(
+                            "Hi, $value".tr,
+                            style: TextStyle(
+                                fontSize: 26, fontWeight: FontWeight.w600),
+                          );
+                        },
                       ),
                       Text(
                         "Let’s make this day productive".tr,
@@ -126,19 +145,7 @@ class _DailozhomeState extends State<Dailozhome> {
                         splashColor: DailozColor.transparent,
                         highlightColor: DailozColor.transparent,
                         onTap: () {
-                          // setState(() {
-                          //   taskcc.fetchTasks();
-                          // });
                           Get.offAll(DailozMyTask("Completed"));
-                          // Navigator.push(context, MaterialPageRoute(
-                          //   builder: (context) {
-                          //     print(taskcc.completedTasks);
-                          //     print(taskcc.pendingTasks);
-                          //     print(taskcc.ongoingTasks);
-                          //     print(taskcc.cancelTasks);
-                          //     return DailozMyTask("Completed");
-                          //   },
-                          // ));
                         },
                         child: Container(
                           height: height / 4.5,
@@ -179,11 +186,26 @@ class _DailozhomeState extends State<Dailozhome> {
                                 SizedBox(
                                   height: height / 120,
                                 ),
-                                Text(
-                                  "${taskcc.completedTasks} Task",
-                                  style: hsRegular.copyWith(
-                                      fontSize: 14, color: DailozColor.black),
-                                ),
+                                ValueListenableBuilder(
+                                  valueListenable: Boxes.getData().listenable(),
+                                  builder: (context, Box box, _) {
+                                    var data =
+                                        box.values.toList().cast<taskModel>();
+                                    var officeTasks = data
+                                        .where((task) {
+                                          return task.tasktype == "Completed";
+                                        })
+                                        .toList()
+                                        .length;
+                                    return Text(
+                                      "$officeTasks Task",
+                                      style: hsMedium.copyWith(
+                                        fontSize: 14,
+                                        color: DailozColor.black,
+                                      ),
+                                    );
+                                  },
+                                )
                               ],
                             ),
                           ),
@@ -197,14 +219,6 @@ class _DailozhomeState extends State<Dailozhome> {
                         highlightColor: DailozColor.transparent,
                         onTap: () {
                           Get.offAll(DailozMyTask("Canceled"));
-                          // setState(() {
-                          //   taskcc.fetchTasks();
-                          // });
-                          // Navigator.push(context, MaterialPageRoute(
-                          //   builder: (context) {
-                          //     return DailozMyTask("Canceled");
-                          //   },
-                          // ));
                         },
                         child: Container(
                           height: height / 6,
@@ -245,11 +259,26 @@ class _DailozhomeState extends State<Dailozhome> {
                                 SizedBox(
                                   height: height / 120,
                                 ),
-                                Text(
-                                  "${taskcc.cancelTasks} Task",
-                                  style: hsRegular.copyWith(
-                                      fontSize: 14, color: DailozColor.black),
-                                ),
+                                ValueListenableBuilder(
+                                  valueListenable: Boxes.getData().listenable(),
+                                  builder: (context, Box box, _) {
+                                    var data =
+                                        box.values.toList().cast<taskModel>();
+                                    var officeTasks = data
+                                        .where((task) {
+                                          return task.tasktype == "Canceled";
+                                        })
+                                        .toList()
+                                        .length;
+                                    return Text(
+                                      "$officeTasks Task",
+                                      style: hsMedium.copyWith(
+                                        fontSize: 14,
+                                        color: DailozColor.black,
+                                      ),
+                                    );
+                                  },
+                                )
                               ],
                             ),
                           ),
@@ -265,14 +294,6 @@ class _DailozhomeState extends State<Dailozhome> {
                         highlightColor: DailozColor.transparent,
                         onTap: () {
                           Get.offAll(DailozMyTask("Pending"));
-                          // setState(() {
-                          //   taskcc.fetchTasks();
-                          // });
-                          // Navigator.push(context, MaterialPageRoute(
-                          //   builder: (context) {
-                          //     return DailozMyTask("Pending");
-                          //   },
-                          // ));
                         },
                         child: Container(
                           height: height / 6,
@@ -313,11 +334,26 @@ class _DailozhomeState extends State<Dailozhome> {
                                 SizedBox(
                                   height: height / 120,
                                 ),
-                                Text(
-                                  "${taskcc.pendingTasks} Task",
-                                  style: hsRegular.copyWith(
-                                      fontSize: 14, color: DailozColor.black),
-                                ),
+                                ValueListenableBuilder(
+                                  valueListenable: Boxes.getData().listenable(),
+                                  builder: (context, Box box, _) {
+                                    var data =
+                                        box.values.toList().cast<taskModel>();
+                                    var officeTasks = data
+                                        .where((task) {
+                                          return task.tasktype == 'Pending';
+                                        })
+                                        .toList()
+                                        .length;
+                                    return Text(
+                                      "$officeTasks Task",
+                                      style: hsMedium.copyWith(
+                                        fontSize: 14,
+                                        color: DailozColor.black,
+                                      ),
+                                    );
+                                  },
+                                )
                               ],
                             ),
                           ),
@@ -331,14 +367,6 @@ class _DailozhomeState extends State<Dailozhome> {
                         highlightColor: DailozColor.transparent,
                         onTap: () {
                           Get.offAll(DailozMyTask("OnGoing"));
-                          // setState(() {
-                          //   taskcc.fetchTasks();
-                          // });
-                          // Navigator.push(context, MaterialPageRoute(
-                          //   builder: (context) {
-                          //     return DailozMyTask("OnGoing");
-                          //   },
-                          // ));
                         },
                         child: Container(
                           height: height / 4.5,
@@ -379,10 +407,25 @@ class _DailozhomeState extends State<Dailozhome> {
                                 SizedBox(
                                   height: height / 120,
                                 ),
-                                Text(
-                                  taskcc.ongoingTasks.toString() + " Task",
-                                  style: hsRegular.copyWith(
-                                      fontSize: 14, color: DailozColor.black),
+                                ValueListenableBuilder(
+                                  valueListenable: Boxes.getData().listenable(),
+                                  builder: (context, Box box, _) {
+                                    var data =
+                                        box.values.toList().cast<taskModel>();
+                                    var officeTasks = data
+                                        .where((task) {
+                                          return task.tasktype == 'On_Going';
+                                        })
+                                        .toList()
+                                        .length;
+                                    return Text(
+                                      "$officeTasks Task",
+                                      style: hsMedium.copyWith(
+                                        fontSize: 14,
+                                        color: DailozColor.black,
+                                      ),
+                                    );
+                                  },
                                 )
                               ],
                             ),
@@ -403,22 +446,25 @@ class _DailozhomeState extends State<Dailozhome> {
                     style: hsSemiBold.copyWith(fontSize: 24),
                   ),
                   const Spacer(),
-                  Text(
-                    "View_all".tr,
-                    style: hsRegular.copyWith(
-                        fontSize: 12, color: DailozColor.appcolor),
-                  ),
+                  TextButton(
+                      onPressed: () {
+                        print("pressme");
+                        Get.offAll(DailozDashboard(1));
+                        // Get.toNamed('/dashboard', arguments: 1);
+                      },
+                      child: Text(
+                        "View_all".tr,
+                        style: hsRegular.copyWith(
+                            fontSize: 12, color: DailozColor.appcolor),
+                      )),
                 ],
               ),
               SizedBox(
-                // height: MediaQuery.of(context).size.height / 0.1,
                 child: ValueListenableBuilder<Box<taskModel>>(
                   valueListenable: Boxes.getData().listenable(),
                   builder: (context, box, _) {
                     var data = box.values.toList().cast<taskModel>();
 
-                    var today =
-                        DateTime.now().toLocal().toString().split(' ')[0];
                     var tasksForToday = data.where((task) {
                       return task.startdate ==
                           DateTime.now().toLocal().toString().split(' ')[0];
@@ -436,6 +482,7 @@ class _DailozhomeState extends State<Dailozhome> {
                           highlightColor: Colors.transparent,
                           onTap: () {
                             Get.to(DailozTaskdetail(
+                              title: task.title.toString(),
                               startTime: task.starttime.toString(),
                               endDate: task.enddate.toString(),
                               tags: task.tags,
@@ -443,13 +490,16 @@ class _DailozhomeState extends State<Dailozhome> {
                               taskType: task.tasktype.toString(),
                               endTime: task.endtime.toString(),
                             ));
-                            // Navigator.push(context, MaterialPageRoute(
-                            //   builder: (context) {
-                            //     return const DailozTaskdetail();
-                            //   },
-                            // ));
                           },
                           child: CustomDecoratedText(
+                            onDelete: () {
+                              // Delete task
+                              task.delete();
+                            },
+                            onEdit: () {
+                              Get.to(DailozEditTask(
+                                  headtitle: "", existingTask: task));
+                            },
                             title: task.title.toString(),
                             time: "${task.starttime} - ${task.endtime}",
                             titleColor: DailozColor.black,
@@ -461,15 +511,6 @@ class _DailozhomeState extends State<Dailozhome> {
                             tagBackgroundColor: const Color(
                                 0xffECEAFF), // Set the tag background color
                           ),
-                          //  TaskCard(
-                          //   title: task.title ??
-                          //       'No Title', // Handle nullable title
-                          //   startTime: task.starttime ??
-                          //       'No Start Time', // Handle nullable start time
-                          //   endTime: task.endtime ??
-                          //       'No End Time', // Handle nullable end time
-                          //   tags: task.tags ?? [], // Handle nullable tags
-                          // ),
                         );
                       },
                     );

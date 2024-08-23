@@ -4,11 +4,13 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:taskapp_work/Controllers/task_controller.dart';
+import 'package:taskapp_work/Widgets/cuntom%20cardprofile.dart';
 import 'package:taskapp_work/Widgets/tile_card.dart';
 import 'package:taskapp_work/boxes/boxes.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_color.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_fontstyle.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_icons.dart';
+import 'package:taskapp_work/dailoz/dailoz_page/dailoz_task/Edittask.dart';
 import 'package:taskapp_work/dailoz/dailoz_page/dailoz_task/dailoz_addtask.dart';
 import 'package:taskapp_work/models/taskModel.dart';
 import '../../dailoz_theme/dailoz_themecontroller.dart';
@@ -207,10 +209,76 @@ class _DailozEventState extends State<DailozEvent> {
               SizedBox(
                 height: height / 56,
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: Obx(() {
-                  var data = Boxes.getData().values.toList().cast<taskModel>();
+              // SizedBox(
+              //   height: MediaQuery.of(context).size.height,
+              //   child: Obx(() {
+              //     var data = Boxes.getData().values.toList().cast<taskModel>();
+
+              //     // Filter tasks based on the selected date
+              //     var tasksForSelectedDate = data.where((task) {
+              //       return task.startdate ==
+              //           controller.selectedDate.value
+              //               .toLocal()
+              //               .toString()
+              //               .split(' ')[0];
+              //     }).toList();
+
+              //     // Filter tasks with 'Event' tag
+              //     var eventTasks = tasksForSelectedDate.where((task) {
+              //       return task.tags.contains('Event');
+              //     }).toList();
+
+              //     if (eventTasks.isEmpty) {
+              //       return Center(
+              //         child: Text('No events for the selected date',
+              //             style: TextStyle(fontSize: 18, color: Colors.grey)),
+              //       );
+              //     }
+
+              //     return ListView.builder(
+              //       itemCount: eventTasks.length,
+              //       physics: const NeverScrollableScrollPhysics(),
+              //       shrinkWrap: true,
+              //       itemBuilder: (context, index) {
+              //         final task = eventTasks[index];
+              //         print(task);
+
+              //         return InkWell(
+              //             splashColor: Colors.transparent,
+              //             highlightColor: Colors.transparent,
+              //             onTap: () {
+              //               Navigator.push(context, MaterialPageRoute(
+              //                 builder: (context) {
+              //                   return DailozTaskdetail(
+              //                       taskType: task.tasktype.toString(),
+              //                       endDate: task.enddate.toString(),
+              //                       startTime: task.starttime.toString(),
+              //                       endTime: task.endtime.toString(),
+              //                       taskDescription:
+              //                           task.description.toString(),
+              //                       tags: task.tags);
+              //                 },
+              //               ));
+              //             },
+              //             child: CustomDecoratedText(
+              //                 title: task.title.toString(),
+              //                 time: task.starttime.toString(),
+              //                 tags: task.tags,
+              //                 onEdit: () {
+              //                   Get.to(DailozEditTask(
+              //                       headtitle: "", existingTask: task));
+              //                 },
+              //                 onDelete: () {
+              //                   task.delete();
+              //                 }));
+              //       },
+              //     );
+              //   }),
+              // )
+              ValueListenableBuilder(
+                valueListenable: Boxes.getData().listenable(),
+                builder: (context, Box box, _) {
+                  var data = box.values.toList().cast<taskModel>();
 
                   // Filter tasks based on the selected date
                   var tasksForSelectedDate = data.where((task) {
@@ -248,28 +316,36 @@ class _DailozEventState extends State<DailozEvent> {
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
                               return DailozTaskdetail(
-                                  taskType: task.tasktype.toString(),
-                                  endDate: task.enddate.toString(),
-                                  startTime: task.starttime.toString(),
-                                  endTime: task.endtime.toString(),
-                                  taskDescription: task.description.toString(),
-                                  tags: task.tags);
+                                title: task.title.toString(),
+                                taskType: task.tasktype.toString(),
+                                endDate: task.enddate.toString(),
+                                startTime: task.starttime.toString(),
+                                endTime: task.endtime.toString(),
+                                taskDescription: task.description.toString(),
+                                tags: task.tags,
+                              );
                             },
                           ));
                         },
-                        child: TaskCard(
-                          title: task.title ?? 'No Title',
-                          startTime: task.starttime ?? 'No Start Time',
-                          endTime: task.endtime ?? 'No End Time',
-                          tags: task.tags ?? [],
+                        child: CustomDecoratedText(
+                          title: task.title.toString(),
+                          time: task.starttime.toString(),
+                          tags: task.tags,
+                          onEdit: () {
+                            Get.to(DailozEditTask(
+                                headtitle: "", existingTask: task));
+                          },
+                          onDelete: () {
+                            task.delete();
+                          },
                         ),
                       );
                     },
                   );
-                }),
+                },
               )
 
-              //TODO: List of EventS from database
+              // //TODO: List of EventS from database
               // SizedBox(
               //   height: MediaQuery.of(context).size.height,
               //   child: ValueListenableBuilder<Box<taskModel>>(

@@ -1,4 +1,5 @@
 class DailozPngimage {
+  static String cloase = "assets/dailoz_assets/dailoz_pngimage/closec.png";
   static String spash = "assets/dailoz_assets/dailoz_pngimage/splash.png";
   static String Complete = "assets/dailoz_assets/dailoz_pngimage/complet.png";
   static String google = "assets/dailoz_assets/dailoz_pngimage/google.png";

@@ -193,6 +193,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.8"
+  custom_syncfusion_flutter_charts:
+    dependency: "direct main"
+    description:
+      name: custom_syncfusion_flutter_charts
+      sha256: "7123eed4c625d6e09f578ec007b81ef4df1d120872819c218d7ccd3a21f8d13b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   dart_style:
     dependency: transitive
     description:
@@ -265,6 +273,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  fl_chart:
+    dependency: "direct main"
+    description:
+      name: fl_chart
+      sha256: d0f0d49112f2f4b192481c16d05b6418bd7820e021e265a3c22db98acf7ed7fb
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.68.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -448,6 +464,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  is_first_run:
+    dependency: "direct main"
+    description:
+      name: is_first_run
+      sha256: "344d9783cbce7b9b90c45b398f85afa1c4a13bb26dcc726d1ee2ec873c8b9b8b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   js:
     dependency: transitive
     description:
@@ -536,6 +560,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  multi_circular_slider:
+    dependency: "direct main"
+    description:
+      name: multi_circular_slider
+      sha256: "78f6ca495722cefc1031957e4185bdf0610afe755fbaff2d37036715c67c7ad7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   nb_utils:
     dependency: "direct main"
     description:
@@ -568,6 +600,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
+  overlay_loader_with_app_icon:
+    dependency: "direct main"
+    description:
+      name: overlay_loader_with_app_icon
+      sha256: "503c49198154c231b29dde91ed265f6cf2549ddcb968d30a36a34afb5436f9b9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   package_config:
     dependency: transitive
     description:
@@ -716,10 +756,10 @@ packages:
     dependency: "direct main"
     description:
       name: shared_preferences
-      sha256: c272f9cabca5a81adc9b0894381e9c1def363e980f960fa903c604c471b22f68
+      sha256: "746e5369a43170c25816cc472ee016d3a66bc13fcf430c0bc41ad7b4b2922051"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.1"
+    version: "2.3.2"
   shared_preferences_android:
     dependency: transitive
     description:
@@ -869,6 +909,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: "3979f0b1c5a97422cadae52d476c21fa3e0fb671ef51de6cae1d646d8b99fe1f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "20.4.54"
+  syncfusion_flutter_gauges:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_gauges
+      sha256: "6b7a901a33345511080d74770dfcdc37d30a15667c73819932786b95b3ec2dfb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "20.4.54"
   table_calendar:
     dependency: "direct main"
     description:

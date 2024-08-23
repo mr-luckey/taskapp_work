@@ -36,7 +36,7 @@ dependencies:
   get: ^4.6.6
   sizer: ^2.0.15
   intl: 
-  shared_preferences: ^2.0.15
+  shared_preferences: ^2.3.2
   flutter_svg: ^2.0.4
   dots_indicator: ^2.1.0
   pinput: ^2.2.31
@@ -54,6 +54,15 @@ dependencies:
   workmanager: ^0.5.2
   timezone: ^0.9.4
   google_fonts: ^6.2.1
+  overlay_loader_with_app_icon: ^0.0.4
+  # syncfusion_flutter_sliders: ^19.1.54-beta
+  # syncfusion_flutter_charts: ^19.1.54
+ 
+  fl_chart: ^0.68.0
+  custom_syncfusion_flutter_charts: ^1.0.1
+  syncfusion_flutter_gauges: ^20.4.54
+  multi_circular_slider: ^1.1.0
+  is_first_run: ^1.0.0
 
 dev_dependencies:
   flutter_test:

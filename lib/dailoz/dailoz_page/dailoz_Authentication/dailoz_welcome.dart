@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_color.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_fontstyle.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_icons.dart';
@@ -24,89 +25,47 @@ class _DailozWelcomeState extends State<DailozWelcome> {
     height = size.height;
     width = size.width;
     return Scaffold(
-      body: Padding(
-        padding:
-            EdgeInsets.symmetric(vertical: height / 36, horizontal: width / 36),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: height / 8,
-            ),
-            Image.asset(
-              DailozPngimage.spash,
-              height: height / 3,
-              fit: BoxFit.fitHeight,
-            ),
-            SizedBox(
-              height: height / 16,
-            ),
-            Text(
-              "Dailoz".tr,
-              style: hsBold.copyWith(fontSize: 32, color: DailozColor.appcolor),
-            ),
-            SizedBox(
-              height: height / 46,
-            ),
-            Text(
-              "Plan what you will do to be more organized for today, tomorrow and beyond"
-                  .tr,
-              textAlign: TextAlign.center,
-              style: hsRegular.copyWith(fontSize: 14),
-            ),
-            const Spacer(),
-            InkWell(
-              splashColor: DailozColor.transparent,
-              highlightColor: DailozColor.transparent,
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return const DailozLogin();
-                  },
-                ));
-              },
-              child: Container(
-                width: width / 1,
-                height: height / 15,
-                decoration: BoxDecoration(
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: height / 36, horizontal: width / 36),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: height / 8,
+              ),
+              Image.asset(
+                DailozPngimage.spash,
+                height: height / 3,
+                fit: BoxFit.fitHeight,
+              ),
+              SizedBox(
+                height: height / 16,
+              ),
+              Text(
+                "ToDo Xpert",
+                style: hsBold.copyWith(
+                    fontSize: 50,
                     color: DailozColor.appcolor,
-                    borderRadius: BorderRadius.circular(14)),
-                child: Center(
-                    child: Text(
-                  "Login".tr,
-                  style: hsSemiBold.copyWith(
-                      fontSize: 16, color: DailozColor.white),
-                )),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: GoogleFonts.poppins().fontFamily),
               ),
-            ),
-            SizedBox(
-              height: height / 96,
-            ),
-            InkWell(
-              splashColor: DailozColor.transparent,
-              highlightColor: DailozColor.transparent,
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                  builder: (context) {
-                    return const DailozSignup();
-                  },
-                ));
-              },
-              child: Container(
-                width: width / 1,
-                height: height / 15,
-                decoration: BoxDecoration(
-                    color: DailozColor.transparent,
-                    borderRadius: BorderRadius.circular(14)),
-                child: Center(
-                    child: Text(
-                  "SignUp".tr,
-                  style: hsSemiBold.copyWith(
-                      fontSize: 16, color: DailozColor.appcolor),
-                )),
+              Text(
+                "Manage your task with ToDo Xpert",
+                style: hsBold.copyWith(
+                    fontSize: 20,
+                    color: DailozColor.appcolor,
+                    fontFamily: GoogleFonts.poppins().fontFamily),
               ),
-            )
-          ],
+              SizedBox(
+                height: height / 16,
+              ),
+              CircularProgressIndicator(
+                color: DailozColor.appcolor,
+              ),
+            ],
+          ),
         ),
       ),
     );

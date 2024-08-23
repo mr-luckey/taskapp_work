@@ -341,45 +341,44 @@ class _DailozEditTaskState extends State<DailozEditTask> {
                     fontSize: 14, color: DailozColor.textgray),
               ),
               SizedBox(height: height / 36),
-              // SizedBox(
-              //   height: height / 20,
-              //   child: ListView.builder(
-              //     itemCount: tagController.tags.length,
-              //     scrollDirection: Axis.horizontal,
-              //     itemBuilder: (context, index) {
-              //       return Padding(
-              //         padding: EdgeInsets.only(right: width / 20),
-              //         child: InkWell(
-              //           splashColor: Colors.transparent,
-              //           highlightColor: Colors.transparent,
-              //           onTap: () {
-              //             tagController.toggleTagSelection(index);
-              //           },
-              //           child: Obx(() => Container(
-              //                 padding: EdgeInsets.symmetric(
-              //                     horizontal: width / 36,
-              //                     vertical: height / 100),
-              //                 decoration: BoxDecoration(
-              //                     color: tagController
-              //                             .selectedTags.contains(
-              //                                 tagController.tags[index])
-              //                         ? Colors.blue
-              //                         : Colors.grey.shade200,
-              //                     borderRadius: BorderRadius.circular(8)),
-              //                 child: Text(
-              //                   tagController.tags[index],
-              //                   style: TextStyle(
-              //                       color: tagController.selectedTags.contains(
-              //                               tagController.tags[index])
-              //                           ? Colors.white
-              //                           : Colors.black),
-              //                 ),
-              //               )),
-              //         ),
-              //       );
-              //     },
-              //   ),
-              // ),
+              SizedBox(
+                height: height / 20,
+                child: ListView.builder(
+                  itemCount: widget.existingTask.tags.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.only(right: width / 20),
+                      child: InkWell(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () {
+                            // .toggleTagSelection(index);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: width / 15, vertical: height / 100),
+                            decoration: BoxDecoration(
+                                color: tagController.selectedTags.contains(
+                                        widget.existingTask.tags[index])
+                                    ? Colors.blue
+                                    : Colors.grey.shade200,
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Center(
+                              child: Text(
+                                widget.existingTask.tags[index],
+                                style: TextStyle(
+                                    color: tagController.selectedTags.contains(
+                                            widget.existingTask.tags[index])
+                                        ? Colors.white
+                                        : Colors.black),
+                              ),
+                            ),
+                          )),
+                    );
+                  },
+                ),
+              ),
 
               // // Save Button
               SizedBox(height: height / 20),
@@ -405,6 +404,8 @@ class _DailozEditTaskState extends State<DailozEditTask> {
 
                     // Save the task
                     await taskBox.put(task.key, task);
+                    task.save();
+
                     Navigator.pop(context);
                   },
                   child: Container(

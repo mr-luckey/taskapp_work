@@ -129,7 +129,7 @@ class _DailozLoginState extends State<DailozLogin> {
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
-                    return DailozDashboard("0");
+                    return DailozDashboard(0);
                   },
                 ));
               },

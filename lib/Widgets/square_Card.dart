@@ -516,23 +516,28 @@ class ReusableContainer extends StatelessWidget {
       case "Completed":
         return [
           _buildMenuItem(1, DailozPngimage.upload, "On_Going"),
+          _buildMenuItem(2, DailozPngimage.editSquare, "Edit"),
+          _buildMenuItem(3, DailozPngimage.delete, "Delete"),
         ];
       case "Canceled":
         return [
           _buildMenuItem(1, DailozPngimage.upload, "On_going"),
+          _buildMenuItem(2, DailozPngimage.delete, "Delete"),
         ];
       case "Pending":
         return [
           _buildMenuItem(1, DailozPngimage.tickSquare, "Completed"),
           _buildMenuItem(2, DailozPngimage.upload, "On_going"),
-          _buildMenuItem(3, DailozPngimage.delete, "Cancel"),
+          _buildMenuItem(3, DailozPngimage.cloase, "Cancel"),
           _buildMenuItem(4, DailozPngimage.editSquare, "Edit"),
+          _buildMenuItem(5, DailozPngimage.delete, "Delete"),
         ];
       default:
         return [
           _buildMenuItem(1, DailozPngimage.tickSquare, "Completed"),
           _buildMenuItem(2, DailozPngimage.editSquare, "Pending"),
-          _buildMenuItem(3, DailozPngimage.delete, "Cancel"),
+          _buildMenuItem(3, DailozPngimage.cloase, "Cancel"),
+          _buildMenuItem(4, DailozPngimage.delete, "Delete"),
         ];
     }
   }
@@ -564,110 +569,120 @@ class ReusableContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width / 1.8,
-      margin: EdgeInsets.only(right: width / 36),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(14),
-        color: _getContainerColor(),
-      ),
-      child: Padding(
-        padding:
-            EdgeInsets.symmetric(horizontal: width / 36, vertical: height / 80),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    title,
-                    style: hsMedium.copyWith(
-                        fontSize: 16, color: DailozColor.black),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1, // Limit title to a single line
-                  ),
-                ),
-                const Spacer(),
-                SizedBox(
-                  height: height / 22,
-                  width: height / 26,
-                  child: PopupMenuButton<int>(
-                    itemBuilder: (context) => _buildMenuItems(),
-                    offset: const Offset(5, 50),
-                    color: DailozColor.white,
-                    constraints: BoxConstraints(
-                      maxWidth: width / 2.8,
+    return Padding(
+      padding: const EdgeInsets.all(.0),
+      child: Container(
+        width: width / 1.8,
+        margin: EdgeInsets.only(right: width / 36),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(14),
+          color: _getContainerColor(),
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: width / 36, vertical: height / 80),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 4,
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    icon: Image.asset(
-                      DailozPngimage.dot,
-                      height: height / 36,
-                      fit: BoxFit.fitHeight,
-                    ),
-                    elevation: 2,
-                    onSelected: onMenuItemSelected,
-                  ),
-                ),
-              ],
-            ),
-            Text(
-              time,
-              style: hsRegular.copyWith(
-                  fontSize: 14, color: DailozColor.textappcolor),
-            ),
-            SizedBox(
-              height: height / 46,
-            ),
-            // Display only the first two tags
-            Wrap(
-              spacing: width / 36, // Space between tags
-              runSpacing: height / 80, // Space between rows of tags
-              children: tags.take(2).map((tag) {
-                // Take only the first two tags
-                return Container(
-                  decoration: BoxDecoration(
-                    color: const Color(0xffFFE9ED), // Tag background color
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: width / 36, vertical: height / 120),
                     child: Text(
-                      tag,
-                      style: hsMedium.copyWith(
-                          fontSize: 10,
-                          color: DailozColor.lightred), // Tag text color
+                      title,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: DailozColor.black,
+                      ),
+                      overflow: TextOverflow
+                          .ellipsis, // Ensures the text is truncated with ellipsis
+                      maxLines: 1, // Limit title to a single line
                     ),
                   ),
-                );
-              }).toList(),
-            ),
-            SizedBox(
-              height: height / 46,
-            ),
-            Row(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: _getLocationColor(),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: width / 36, vertical: height / 120),
-                    child: Text(
-                      location,
-                      style: hsMedium.copyWith(
-                          fontSize: 10, color: _getLocationTextColor()),
+                  const Spacer(),
+                  SizedBox(
+                    height: height / 22,
+                    width: height / 26,
+                    child: PopupMenuButton<int>(
+                      itemBuilder: (context) => _buildMenuItems(),
+                      offset: const Offset(5, 50),
+                      color: DailozColor.white,
+                      constraints: BoxConstraints(
+                        maxWidth: width / 2.8,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      icon: Image.asset(
+                        DailozPngimage.dot,
+                        height: height / 36,
+                        fit: BoxFit.fitHeight,
+                      ),
+                      elevation: 2,
+                      onSelected: onMenuItemSelected,
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+              Text(
+                time,
+                style: hsRegular.copyWith(
+                    fontSize: 14, color: DailozColor.textappcolor),
+              ),
+              SizedBox(
+                height: height / 46,
+              ),
+              // Display only the first two tags
+              Wrap(
+                spacing: width / 36, // Space between tags
+                runSpacing: height / 80, // Space between rows of tags
+                children: tags.take(2).map((tag) {
+                  // Take only the first two tags
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: const Color(0xffFFE9ED), // Tag background color
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: width / 36, vertical: height / 120),
+                      child: Text(
+                        tag,
+                        style: hsMedium.copyWith(
+                            fontSize: 10,
+                            color: DailozColor.lightred), // Tag text color
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+              SizedBox(
+                height: height / 46,
+              ),
+              Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: _getLocationColor(),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: width / 36, vertical: height / 120),
+                      child: Text(
+                        location,
+                        style: hsMedium.copyWith(
+                            fontSize: 10, color: _getLocationTextColor()),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

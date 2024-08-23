@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:taskapp_work/boxes/boxes.dart';
 import 'package:taskapp_work/models/taskModel.dart';
 
@@ -24,12 +25,22 @@ int getMeetingTasksCount(List<taskModel> tasks) {
   return meetingTasks.length;
 }
 
-int getOfficeTasksCount(List<taskModel> tasks) {
-  var officeTasks = tasks.where((task) {
-    return task.tags.contains('Office');
-  }).toList();
-  return officeTasks.length;
+ValueNotifier<int> officeCountNotifier = ValueNotifier<int>(0);
+void updateOfficeCount(List<taskModel> tasks) {
+  // officeCountNotifier.value = getOfficeTasksCount(tasks);
 }
+
+// int getOfficeTasksCount(List<taskModel> tasks) {
+//   var officeTasks =
+//   return officeTasks.length;
+// }
+
+// int getOfficeTasksCount(List<taskModel> tasks) {
+//   var officeTasks = tasks.where((task) {
+//     return task.tags.contains('Office');
+//   }).toList();
+//   return officeTasks.length;
+// }
 
 int getWorkTasksCount(List<taskModel> tasks) {
   var workTasks = tasks.where((task) {

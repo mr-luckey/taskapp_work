@@ -223,6 +223,7 @@ import 'package:taskapp_work/boxes/boxes.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_color.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_fontstyle.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_icons.dart';
+import 'package:taskapp_work/dailoz/dailoz_page/dailoz_task/Edittask.dart';
 import 'package:taskapp_work/dailoz/dailoz_page/dailoz_task/dailoz_addtask.dart';
 import 'package:taskapp_work/models/taskModel.dart';
 import '../dailoz_task/dailoz_taskdetail.dart';
@@ -396,6 +397,7 @@ class _UrgenttasksState extends State<Urgenttasks> {
                             Navigator.push(context, MaterialPageRoute(
                               builder: (context) {
                                 return DailozTaskdetail(
+                                  title: task.title.toString(),
                                   taskType: task.tasktype.toString(),
                                   endDate: task.enddate.toString(),
                                   startTime: task.starttime.toString(),
@@ -407,6 +409,14 @@ class _UrgenttasksState extends State<Urgenttasks> {
                             ));
                           },
                           child: CustomDecoratedText(
+                            onDelete: () {
+                              // Delete task
+                              task.delete();
+                            },
+                            onEdit: () {
+                              Get.to(DailozEditTask(
+                                  headtitle: "", existingTask: task));
+                            },
                             title: task.title.toString(),
                             time: "${task.starttime} - ${task.endtime}",
                             titleColor: DailozColor.black,

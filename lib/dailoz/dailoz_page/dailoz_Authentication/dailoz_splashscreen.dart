@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_fontstyle.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_icons.dart';
+import 'package:taskapp_work/dailoz/dailoz_page/dailoz_home/dailoz_dashboard.dart';
 
 import '../../dailoz_gloabelclass/dailoz_color.dart';
 import 'dailoz_welcome.dart';
@@ -20,10 +23,10 @@ class _DailozSplashscreenState extends State<DailozSplashscreen> {
 
   goup() async {
     var navigator = Navigator.of(context);
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 3));
     navigator.push(MaterialPageRoute(
       builder: (context) {
-        return const DailozWelcome();
+        return DailozDashboard(0);
       },
     ));
   }
@@ -37,13 +40,58 @@ class _DailozSplashscreenState extends State<DailozSplashscreen> {
     height = size.height;
     width = size.width;
     return Scaffold(
-      backgroundColor: DailozColor.appcolor,
       body: Center(
-          child: Image.asset(
-        DailozPngimage.splashh,
-        height: height / 6,
-        fit: BoxFit.fitHeight,
-      )),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: height / 36, horizontal: width / 36),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: height / 8,
+              ),
+              Image.asset(
+                DailozPngimage.spash,
+                height: height / 3,
+                fit: BoxFit.fitHeight,
+              ),
+              SizedBox(
+                height: height / 16,
+              ),
+              Text(
+                "ToDo Xpert",
+                style: hsBold.copyWith(
+                    fontSize: 50,
+                    color: DailozColor.appcolor,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: GoogleFonts.poppins().fontFamily),
+              ),
+              Text(
+                "Manage your task with ToDo Xpert",
+                style: hsBold.copyWith(
+                    fontSize: 20,
+                    color: DailozColor.appcolor,
+                    fontFamily: GoogleFonts.poppins().fontFamily),
+              ),
+              SizedBox(
+                height: height / 16,
+              ),
+              CircularProgressIndicator(
+                color: DailozColor.appcolor,
+              ),
+              SizedBox(
+                height: height / 46,
+              ),
+              Text(
+                "Loading",
+                style: TextStyle(
+                    color: DailozColor.appcolor,
+                    fontFamily: GoogleFonts.poppins().fontFamily),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
