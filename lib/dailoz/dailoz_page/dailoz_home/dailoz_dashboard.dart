@@ -193,7 +193,9 @@
 //     );
 //   }
 // }
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_color.dart';
@@ -275,15 +277,11 @@ class _DailozDashboardState extends State<DailozDashboard> {
           actions: [
             TextButton(
               onPressed: () async {
-                if (nameController.text.isNotEmpty &&
-                    emailController.text.isNotEmpty) {
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  await prefs.setString('userName', nameController.text);
-                  await prefs.setString('userEmail', emailController.text);
-                  Navigator.of(context).pop();
-                  _navigateToDashboard();
-                }
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.setString('userName', nameController.text);
+                await prefs.setString('userEmail', emailController.text);
+                Navigator.of(context).pop();
+                _navigateToDashboard();
               },
               child: Text('Submit'),
             ),
@@ -392,24 +390,38 @@ class _DailozDashboardState extends State<DailozDashboard> {
     width = size.width;
     return WillPopScope(
       onWillPop: () async {
-        bool shouldExit = await showDialog(
+        bool shouldExit = await CoolAlert.show(
           context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Would you like to exit?'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: Text('No'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: Text('Yes'),
-              ),
-            ],
-          ),
+          type: CoolAlertType.info,
+          title: 'Would you like to exit?',
+          confirmBtnText: 'Yes',
+          cancelBtnText: 'No',
+          onConfirmBtnTap: () => SystemNavigator.pop(),
+          // onCancelBtnTap: () => Navigator.of(context).pop(false),
+          showCancelBtn: true,
         );
         return shouldExit ?? false;
       },
+      // onWillPop: () async {
+      //   bool shouldExit = await showDialog(
+      //     context: context,
+      //     builder: (context) => AlertDialog(
+      //       title: Text('Would you like to exit?'),
+      //       actions: [
+      //         TextButton(
+      //           onPressed: () => Navigator.of(context).pop(false),
+      //           child: Text('No'),
+      //         ),
+      //         TextButton(
+      //           onPressed: () => Navigator.of(context).pop(true),
+      //           child: Text('Yes'),
+      //         ),
+      //       ],
+      //     ),
+      //   );
+      //   return shouldExit ?? false;
+      // },
+
       child: GetBuilder<DailozThemecontroler>(builder: (controller) {
         return Scaffold(
           floatingActionButton: FloatingActionButton(

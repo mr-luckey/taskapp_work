@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_color.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_fontstyle.dart';
 import 'package:taskapp_work/dailoz/dailoz_gloabelclass/dailoz_icons.dart';
@@ -44,7 +45,7 @@ class TaskCard extends StatelessWidget {
             ),
             SizedBox(height: MediaQuery.of(context).size.height / 200),
             Text(
-              "$startTime - $endTime",
+              "${DateFormat("hh:mm a".toString()).parseStrict(startTime)} - ${DateFormat("hh:mm a".toString()).parseStrict(endTime)}}",
               style:
                   hsRegular.copyWith(fontSize: 14, color: DailozColor.textgray),
             ),

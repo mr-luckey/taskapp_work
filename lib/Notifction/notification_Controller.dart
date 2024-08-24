@@ -67,10 +67,11 @@ class TasktimeController extends GetxController {
     NotificationService().init();
   }
 
-  void addTask(DateTime startTime, String title) {
-    tasks.add({'startTime': startTime, 'title': title});
+  void addTask(DateTime startTime, String title, String description) {
+    tasks.add(
+        {'startTime': startTime, 'title': title, 'Description': description});
     saveTasks();
-    scheduleNotification(startTime, title);
+    scheduleNotification(startTime, title, description);
   }
 
   void loadTasks() async {
@@ -89,7 +90,8 @@ class TasktimeController extends GetxController {
     prefs.setString('tasks', jsonEncode(jsonList));
   }
 
-  void scheduleNotification(DateTime startTime, String title) {
+  void scheduleNotification(
+      DateTime startTime, String title, String Description) {
     DateTime now = DateTime.now();
     Duration difference = startTime.difference(now);
     if (difference.isNegative) return;
@@ -98,7 +100,7 @@ class TasktimeController extends GetxController {
       NotificationService().showNotification(
         startTime.hashCode,
         title,
-        'Your task "$title" has started.',
+        '$Description',
       );
     });
   }

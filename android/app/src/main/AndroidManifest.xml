@@ -4,7 +4,7 @@
 <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
 <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
     <application
-        android:label="taskapp_work"
+        android:label="ToDo Xpert"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         

@@ -611,9 +611,9 @@ class _DailozAddTaskState extends State<DailozAddTask> {
                     print("Raw End DateTime: ${enddatetimeController.text}");
 
                     // Ensure the date strings are in the correct format
-                    startTime = DateFormat("yyyy-MM-dd hh:mm a".toString())
+                    startTime = DateFormat("yyyy-MM-dd hh:mm a")
                         .parseStrict(startdatetimeController.text);
-                    endTime = DateFormat("yyyy-MM-dd hh:mm a".toString())
+                    endTime = DateFormat("yyyy-MM-dd hh:mm a")
                         .parseStrict(enddatetimeController.text);
 
                     // Print the parsed dates for debugging
@@ -661,10 +661,10 @@ class _DailozAddTaskState extends State<DailozAddTask> {
                   print(
                       "Start Date: ${DateFormat('yyyy-MM-dd').format(startTime)}");
                   print(
-                      "Start Time: ${DateFormat('HH:mm:ss').format(startTime)}");
+                      "Start Time: ${DateFormat('hh:mm a').format(startTime)}");
                   print(
                       "End Date: ${DateFormat('yyyy-MM-dd').format(endTime)}");
-                  print("End Time: ${DateFormat('HH:mm:ss').format(endTime)}");
+                  print("End Time: ${DateFormat('hh:mm a').format(endTime)}");
                   print("ID: ${title.text} ${startdatetimeController.text}");
 
                   var data = taskModel(
@@ -674,8 +674,8 @@ class _DailozAddTaskState extends State<DailozAddTask> {
                     status: type[checkBoxController.selectedCheckBox.value],
                     tags: tagController.selectedTags,
                     ID: '${title.text} ${startdatetimeController.text}',
-                    starttime: DateFormat('HH:mm:ss').format(startTime),
-                    endtime: DateFormat('HH:mm:ss').format(endTime),
+                    starttime: DateFormat('hh:mm a').format(startTime),
+                    endtime: DateFormat('hh:mm a').format(endTime),
                     startdate: DateFormat('yyyy-MM-dd').format(startTime),
                     enddate: DateFormat('yyyy-MM-dd').format(endTime),
                   );
@@ -685,7 +685,8 @@ class _DailozAddTaskState extends State<DailozAddTask> {
                   data.save();
                   print("5");
 
-                  tasktimeController.addTask(startTime, title.text);
+                  tasktimeController.addTask(
+                      startTime, title.text, description.text);
                   print("6////////////////////");
                   Get.back();
                   Get.snackbar(
