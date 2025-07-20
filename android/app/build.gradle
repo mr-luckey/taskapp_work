@@ -20,22 +20,23 @@ if (keystorePropertiesFile.exists()) {
 
 def flutterVersionCode = localProperties.getProperty("flutter.versionCode")
 if (flutterVersionCode == null) {
-    flutterVersionCode = "1"
+    flutterVersionCode = "2"
 }
 
 def flutterVersionName = localProperties.getProperty("flutter.versionName")
 if (flutterVersionName == null) {
-    flutterVersionName = "1.0"
+    flutterVersionName = "2.0"
 }
 
 android {
     namespace = "com.appware.ToDoXpert"
-    compileSdk 34
-    ndkVersion = flutter.ndkVersion
+    compileSdk 35
+    ndkVersion "29.0.13113456"
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
       signingConfigs {
         release {
@@ -52,8 +53,8 @@ android {
         applicationId = "com.appware.ToDoXpert"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-       minSdkVersion 21
-       targetSdk 34
+       minSdkVersion 23
+       targetSdk 35
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
     }
@@ -72,6 +73,9 @@ flutter {
     source = "../.."
 }
 dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
+
+//    implementation"coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3"
     constraints {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
             because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
